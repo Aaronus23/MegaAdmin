@@ -25,6 +25,15 @@ public class CancelarPedido extends javax.swing.JFrame {
     public CancelarPedido() {
         initComponents();
     }
+    
+    public void setear(String folio,String nombre,String fecha,String total,String abono){
+        NombreEjemplo.setText(nombre);
+        FechaEjemplo.setText(fecha);
+        AbonoPedido.setText(abono);
+        TotalPedido.setText(total);
+        NumeroPedido.setText(folio);
+                
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

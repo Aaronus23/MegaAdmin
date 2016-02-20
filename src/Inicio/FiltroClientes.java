@@ -10,6 +10,9 @@ import java.util.Date;
  * @author Jesús Ernesto
  */
 public class FiltroClientes extends javax.swing.JFrame {
+    public String id,nombre,telefono,telefono2,direccion,folio;
+    int row;
+    
     private static FiltroClientes instancia=null;
     public static FiltroClientes getInstance(){
         if(instancia==null){
@@ -68,6 +71,11 @@ public class FiltroClientes extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        TablaClientesEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaClientesEliminarMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TablaClientesEliminar);
@@ -151,7 +159,24 @@ public class FiltroClientes extends javax.swing.JFrame {
 
     private void AceptarEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarEliminarActionPerformed
         dispose();
+        id=TablaClientesEliminar.getValueAt(row,0).toString();
+        nombre=TablaClientesEliminar.getValueAt(row,1).toString();
+        telefono=TablaClientesEliminar.getValueAt(row,2).toString();
+        telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+        direccion=TablaClientesEliminar.getValueAt(row,4).toString();
+        EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
     }//GEN-LAST:event_AceptarEliminarActionPerformed
+
+    private void TablaClientesEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesEliminarMouseClicked
+        
+        row = TablaClientesEliminar.rowAtPoint(evt.getPoint());
+        id=TablaClientesEliminar.getValueAt(row,0).toString();
+        nombre=TablaClientesEliminar.getValueAt(row,1).toString();
+        telefono=TablaClientesEliminar.getValueAt(row,2).toString();
+        telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+        direccion=TablaClientesEliminar.getValueAt(row,4).toString();
+        EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
+    }//GEN-LAST:event_TablaClientesEliminarMouseClicked
 
     /**
      * @param args the command line arguments

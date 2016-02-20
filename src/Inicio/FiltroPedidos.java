@@ -12,6 +12,9 @@ import java.util.Date;
  * @author Jesús Ernesto
  */
 public class FiltroPedidos extends javax.swing.JFrame {
+    
+     public String nombre,fecha,total,abono,folio;
+    int row;
     private static FiltroPedidos instancia=null;
     public static FiltroPedidos getInstance(){
         if(instancia==null){
@@ -70,6 +73,11 @@ public class FiltroPedidos extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        TablaFilPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaFilPedidosMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(TablaFilPedidos);
@@ -153,6 +161,19 @@ public class FiltroPedidos extends javax.swing.JFrame {
     private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
         dispose();
     }//GEN-LAST:event_AceptarActionPerformed
+
+    private void TablaFilPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaFilPedidosMouseClicked
+             
+        row = TablaFilPedidos.rowAtPoint(evt.getPoint());
+        System.out.println("hola");
+        folio=TablaFilPedidos.getValueAt(row,0).toString();
+        nombre=TablaFilPedidos.getValueAt(row,1).toString();
+         System.out.println(nombre);
+        fecha=TablaFilPedidos.getValueAt(row,2).toString();
+        total=TablaFilPedidos.getValueAt(row,3).toString();
+        abono=TablaFilPedidos.getValueAt(row,4).toString();
+        CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
+    }//GEN-LAST:event_TablaFilPedidosMouseClicked
 
     /**
      * @param args the command line arguments

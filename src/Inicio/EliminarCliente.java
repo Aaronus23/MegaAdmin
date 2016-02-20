@@ -25,6 +25,14 @@ public class EliminarCliente extends javax.swing.JFrame {
     public EliminarCliente() {
         initComponents();
     }
+    
+    public void setear(String folio,String nombre,String telefono,String  telefono2,String direccion){
+        FiltrarIdEli.setText(folio);
+        NombreEli.setText(nombre);
+        TelefonoEli.setText(telefono);
+        Telefono2Eli.setText(telefono2);
+        DireccionEli.setText(direccion);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
