@@ -1,7 +1,7 @@
 package Conector;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -12,7 +12,15 @@ public final class Conector {
      public java.sql.Connection conexion;
      public java.sql.Statement sentencia;
      public java.sql.ResultSet cdr;
-    
+     public String DbDateFormat(String sentence) {
+        StringBuilder sb = new StringBuilder(sentence.length() + 1);
+        String[] words = sentence.split("/");
+        for (int i = words.length - 1; i >= 0; i--) {
+            sb.append(words[i]).append('-');
+        }
+        sb.setLength(sb.length() - 1);  // Strip trailing space
+        return sb.toString();
+    }
     public Conector() throws ClassNotFoundException,java.sql.SQLException,InstantiationException,IllegalAccessException {
         String controlador="com.mysql.jdbc.Driver";
         Class.forName(controlador).newInstance();
@@ -46,7 +54,10 @@ public final class Conector {
         }
         return new DefaultTableModel(data, columnNames);
     }
-
+    public void Buscar(String query) throws SQLException{
+        sentencia=conexion.createStatement();
+        cdr=sentencia.executeQuery(query);
+    }
     public void Insertar(String query) throws SQLException {
             sentencia=conexion.createStatement();
             sentencia.executeUpdate(query);

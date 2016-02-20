@@ -32,13 +32,7 @@ public class Abono extends javax.swing.JFrame {
     public Abono() {
         try {
             conector=new Conector();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();

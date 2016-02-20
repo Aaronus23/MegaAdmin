@@ -36,13 +36,6 @@ public class NotaCaja{
         static ArrayList <dat> ggg;
        
     public NotaCaja() {
-        /*ggg = new ArrayList<>(100);
-        dat holi=new dat(fecha,"crayola",5);
-        ggg.add(holi);
-        dat holi2=new dat(fecha,"crayola2",6);
-        ggg.add(holi2);
-        dat holi3=new dat(fecha,"crayola3",7);
-        ggg.add(holi2);*/
         
     }
     
