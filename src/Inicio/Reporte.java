@@ -5,8 +5,17 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import notas.NotaCaja;
+import notas.dat;
 
 /**
  *
@@ -14,10 +23,17 @@ import javax.swing.*;
  */
 public class Reporte extends javax.swing.JFrame {
     private static Reporte instancia=null;
+    Conector conector;
     /**
      * Creates new form Reporte
      */
     public Reporte() {
+        try {
+            conector=new Conector();
+        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         initComponents();
     }
     public static Reporte getInstance(){
@@ -100,7 +116,33 @@ public class Reporte extends javax.swing.JFrame {
     private void GenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar el reporte?","Generar Reporte",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
-            
+            ArrayList<dat> datos=new ArrayList<>();
+            dat dato = new dat();
+            String fechIni=conector.DbDateFormat(InicioReporte.getText());
+            String fechFin=conector.DbDateFormat(FinalReporte.getText());
+            boolean empty=true;
+            try {
+                conector.Buscar("SELECT fecha,concepto,monto FROM caja WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "'");
+                while( conector.cdr.next() ) {
+                    dato.fecha=(Date) conector.cdr.getDate("fecha");
+                    dato.concepto=conector.cdr.getString("concepto");
+                    dato.monto=conector.cdr.getString("monto");
+                    datos.add(dato);
+                    empty = false;
+                }
+                conector.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(empty) JOptionPane.showMessageDialog(null, "¡Ninguna transaccion en esa fecha!");
+            else{
+                NotaCaja nota = new NotaCaja();
+                try {
+                    nota.createPdf("Caja.pdf",datos);
+                } catch (DocumentException | IOException ex) {
+                    Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
             dispose();
         }
@@ -122,15 +164,11 @@ public class Reporte extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Reporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Reporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Reporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Reporte.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
