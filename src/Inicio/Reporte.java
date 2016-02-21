@@ -23,17 +23,11 @@ import notas.dat;
  */
 public class Reporte extends javax.swing.JFrame {
     private static Reporte instancia=null;
-    Conector conector;
     /**
      * Creates new form Reporte
      */
     public Reporte() {
-        try {
-            conector=new Conector();
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        Conector.getInstance();
         initComponents();
     }
     public static Reporte getInstance(){
@@ -117,20 +111,19 @@ public class Reporte extends javax.swing.JFrame {
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar el reporte?","Generar Reporte",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             ArrayList<dat> datos=new ArrayList<>();
-            dat dato = new dat();
-            String fechIni=conector.DbDateFormat(InicioReporte.getText());
-            String fechFin=conector.DbDateFormat(FinalReporte.getText());
+            String fechIni=Conector.getInstance().DbDateFormat(InicioReporte.getText());
+            String fechFin=Conector.getInstance().DbDateFormat(FinalReporte.getText());
             boolean empty=true;
             try {
-                conector.Buscar("SELECT fecha,concepto,monto FROM caja WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "'");
-                while( conector.cdr.next() ) {
-                    dato.fecha=(Date) conector.cdr.getDate("fecha");
-                    dato.concepto=conector.cdr.getString("concepto");
-                    dato.monto=conector.cdr.getString("monto");
+                Conector.getInstance().Buscar("SELECT fecha,concepto,monto FROM caja WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "'");
+                while( Conector.getInstance().cdr.next() ) {
+                    dat dato = new dat();
+                    dato.fecha=(Date) Conector.getInstance().cdr.getDate("fecha");
+                    dato.concepto=Conector.getInstance().cdr.getString("concepto");
+                    dato.monto=Conector.getInstance().cdr.getString("monto");
                     datos.add(dato);
                     empty = false;
                 }
-                conector.cerrarConexion();
             } catch (SQLException ex) {
                 Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -139,11 +132,11 @@ public class Reporte extends javax.swing.JFrame {
                 NotaCaja nota = new NotaCaja();
                 try {
                     nota.createPdf("Caja.pdf",datos);
+                    JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
                 } catch (DocumentException | IOException ex) {
                     Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
             dispose();
         }
     }//GEN-LAST:event_GenerarActionPerformed

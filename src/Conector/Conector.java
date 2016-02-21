@@ -3,6 +3,8 @@ package Conector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -12,6 +14,17 @@ public final class Conector {
      public java.sql.Connection conexion;
      public java.sql.Statement sentencia;
      public java.sql.ResultSet cdr;
+     public static Conector instancia;
+     public static Conector getInstance(){
+        if(instancia==null){
+            try {
+                instancia=new Conector();
+            } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return instancia;
+    }
      public String DbDateFormat(String sentence) {
         StringBuilder sb = new StringBuilder(sentence.length() + 1);
         String[] words = sentence.split("/");
@@ -25,6 +38,7 @@ public final class Conector {
         String controlador="com.mysql.jdbc.Driver";
         Class.forName(controlador).newInstance();
         conectar();
+        sentencia=conexion.createStatement();
     }
     public void conectar() throws java.sql.SQLException {
         String URL_bd = "jdbc:mysql://localhost:3306/megagraphicsDB";
@@ -55,11 +69,9 @@ public final class Conector {
         return new DefaultTableModel(data, columnNames);
     }
     public void Buscar(String query) throws SQLException{
-        sentencia=conexion.createStatement();
         cdr=sentencia.executeQuery(query);
     }
     public void Insertar(String query) throws SQLException {
-            sentencia=conexion.createStatement();
             sentencia.executeUpdate(query);
     }
     

@@ -18,12 +18,10 @@ import javax.swing.*;
  * @author Jesús Ernesto
  */
 public class Retiro extends javax.swing.JFrame {
-Conector conector;
-
-    private static IngresarCliente instancia=null;
-    public static IngresarCliente getInstance(){
+    private static Retiro instancia=null;
+    public static Retiro getInstance(){
         if(instancia==null){
-            instancia=new IngresarCliente();
+            instancia=new Retiro();
         }
         return instancia;
     }
@@ -31,11 +29,7 @@ Conector conector;
      * Creates new form Retiro
      */
     public Retiro() {
-    try {
-        conector=new Conector();
-    } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-        Logger.getLogger(Retiro.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        Conector.getInstance();
         initComponents();
     }
 
@@ -122,9 +116,17 @@ Conector conector;
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String fecha= sdf.format(date);
                 String query;
-                query = "INSERT INTO caja VALUES(NULL,'"+fecha+"','"+DescripcionRetirar+"',"+monto.toString()+")";
-                JOptionPane.showMessageDialog(null, "¡Retiro realizado con éxito!");
-                dispose();
+                query = "INSERT INTO caja VALUES(NULL,'"+fecha+"','"+DescripcionRetirar.getText()+"',"+monto.toString()+")";
+                try {
+                    Conector.getInstance().Insertar(query);
+                    JOptionPane.showMessageDialog(null, "¡Monto retirado exitosamente!");
+                    dispose();
+                    Retiro.instancia=null;
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
+                    Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_RetirarActionPerformed
@@ -154,6 +156,9 @@ Conector conector;
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Retiro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

@@ -18,7 +18,6 @@ import javax.swing.*;
  * @author Jesús Ernesto
  */
 public class Abono extends javax.swing.JFrame {
-    Conector conector;
     private static Abono instancia=null;
     public static Abono getInstance(){
         if(instancia==null){
@@ -30,11 +29,7 @@ public class Abono extends javax.swing.JFrame {
      * Creates new form Abono
      */
     public Abono() {
-        try {
-            conector=new Conector();
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Conector.getInstance();
         initComponents();
     }
 
@@ -124,15 +119,18 @@ public class Abono extends javax.swing.JFrame {
                 String query;
                 query = "INSERT INTO abono VALUES(NULL,'"+fecha+"','"+id+"',"+monto.toString()+")";
                 try {
-                    conector.Insertar(query);
+                    Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
-                    conector.cerrarConexion();
+                    dispose();
+                    Abono.instancia=null;
+
                 } catch (SQLException ex) {
                     if(ex.getSQLState().startsWith("23"))
                         JOptionPane.showMessageDialog(null,"Pedido Inexistente!");
+                    else
+                        JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dispose();
             }
         }
     }//GEN-LAST:event_AbonarActionPerformed

@@ -19,7 +19,6 @@ import javax.swing.*;
  * @author Jesús Ernesto
  */
 public class Otros extends javax.swing.JFrame {
-    Conector conector;
     private static Otros instancia=null;
     public static Otros getInstance(){
         if(instancia==null){
@@ -31,11 +30,7 @@ public class Otros extends javax.swing.JFrame {
      * Creates new form Otros
      */
     public Otros() {
-        try {
-            conector=new Conector();
-        } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Conector.getInstance();
         initComponents();
     }
 
@@ -123,13 +118,14 @@ public class Otros extends javax.swing.JFrame {
                 String query;
                 query = "INSERT INTO caja VALUES(NULL,'"+fecha+"','"+concepto+"',"+monto.toString()+")";
                 try {
-                    conector.Insertar(query);
+                    Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Monto ingresado exitosamente!");
-                    conector.cerrarConexion();
+                    dispose();
+                    Otros.instancia=null;
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                dispose();
             }
         }
     }//GEN-LAST:event_GuardarActionPerformed
