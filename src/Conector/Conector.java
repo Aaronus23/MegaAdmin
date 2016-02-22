@@ -66,7 +66,12 @@ public final class Conector {
                 vector.add(cdr.getObject(columnIndex));
         data.add(vector);
         }
-        return new DefaultTableModel(data, columnNames);
+        return new DefaultTableModel(data, columnNames){
+            @Override 
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
     }
     public void Buscar(String query) throws SQLException{
         cdr=sentencia.executeQuery(query);

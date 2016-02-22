@@ -4,7 +4,12 @@
  * and open the template in the editor.
  */
 package Inicio;
+import Conector.Conector;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Jesús Ernesto
@@ -12,6 +17,7 @@ import java.util.Date;
 public class FiltroClientes extends javax.swing.JFrame {
     public String id,nombre,telefono,telefono2,direccion,folio;
     int row;
+    Vector <String> cols;
     
     private static FiltroClientes instancia=null;
     public static FiltroClientes getInstance(){
@@ -24,6 +30,13 @@ public class FiltroClientes extends javax.swing.JFrame {
      * Creates new form FiltroClientes
      */
     public FiltroClientes() {
+        cols=new Vector<>();
+        cols.add("ID");
+        cols.add("Nombre");
+        cols.add("Telefono");
+        cols.add("Telefono2");
+        cols.add("Direccion");
+        Conector.getInstance();
         initComponents();
     }
 
@@ -54,25 +67,10 @@ public class FiltroClientes extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Gulim", 1, 14)); // NOI18N
         jLabel1.setText("CLIENTES");
 
-        TablaClientesEliminar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nombre", "Teléfono", "Teléfono 2", "Dirección"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        try{
+            TablaClientesEliminar.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
+        } catch (SQLException ex){
+        }
         TablaClientesEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaClientesEliminarMouseClicked(evt);

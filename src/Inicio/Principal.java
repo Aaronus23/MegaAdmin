@@ -333,7 +333,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarClientePrinActionPerformed
 
     private void EliminarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClientesActionPerformed
-        EliminarCliente.getInstance().setVisible(true);;
+        EliminarCliente.getInstance().setVisible(true);
     }//GEN-LAST:event_EliminarClientesActionPerformed
 
     /**

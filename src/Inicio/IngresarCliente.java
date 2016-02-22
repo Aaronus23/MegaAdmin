@@ -5,6 +5,10 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -23,6 +27,7 @@ public class IngresarCliente extends javax.swing.JFrame {
      * Creates new form IngresarCliente
      */
     public IngresarCliente() {
+        Conector.getInstance();
         initComponents();
     }
 
@@ -41,10 +46,10 @@ public class IngresarCliente extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         TelefonoNuevo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        TelefonoNuevo2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        Direccion = new javax.swing.JTextPane();
         AceptarNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -61,7 +66,7 @@ public class IngresarCliente extends javax.swing.JFrame {
 
         jLabel5.setText("Dirección:");
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(Direccion);
 
         AceptarNuevo.setText("Aceptar");
         AceptarNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +93,7 @@ public class IngresarCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)))
+                                    .addComponent(TelefonoNuevo2)))
                             .addComponent(AceptarNuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -118,7 +123,7 @@ public class IngresarCliente extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TelefonoNuevo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -136,9 +141,19 @@ public class IngresarCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Coloca por favor el nombre del cliente");
         }
         else{
+            String nom,tel,tel2;
+            String query="INSERT INTO cliente VALUES(NULL,'"+NombreNuevo.getText()+"','"+TelefonoNuevo.getText()+"','"+TelefonoNuevo2.getText()+"','"+Direccion.getText()+"')";
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente agregar este cliente?","Cliente nuevo",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Cliente registrado con éxito!");
+                try {
+                    JOptionPane.showMessageDialog(null, query);
+                    Conector.getInstance().Insertar(query);
+                    JOptionPane.showMessageDialog(null, "¡Cliente registrado con éxito!");
+                } catch (SQLException ex){ 
+                    JOptionPane.showMessageDialog(null, "¡Error al ingresar el cliente!");
+                    Logger.getLogger(IngresarCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
                 dispose();
             }
         }
@@ -181,15 +196,15 @@ public class IngresarCliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton AceptarNuevo;
+    public javax.swing.JTextPane Direccion;
     public javax.swing.JTextField NombreNuevo;
     public javax.swing.JTextField TelefonoNuevo;
+    public javax.swing.JTextField TelefonoNuevo2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTextField jTextField1;
-    public javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }

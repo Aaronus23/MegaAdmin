@@ -32,7 +32,6 @@ import notas.dat;
  * @author Jesús Ernesto
  */
 public class Caja extends javax.swing.JFrame {
-   Conector conector;
    ArrayList filtros,datos;
    Vector cols;
    TableRowSorter trsfiltro;
@@ -50,20 +49,11 @@ public class Caja extends javax.swing.JFrame {
      * Creates new form NotaCaja
      */
     public Caja() {
-       try {
-           conector= new Conector();
-       } catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
-           Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-       }
+        Conector.getInstance();
         cols=new Vector<>();
         cols.add("Fecha");
         cols.add("Concepto");
         cols.add("Monto");
-       try {
-           conector.sentencia=conector.conexion.createStatement();
-       } catch (SQLException ex) {
-           Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-       }
         initComponents();
         getTot();
         trsfiltro = new TableRowSorter(TablaCaja.getModel());
@@ -143,7 +133,7 @@ public class Caja extends javax.swing.JFrame {
         });
 
         try{
-            TablaCaja.setModel(conector.buildTableModel("SELECT fecha,concepto,monto FROM caja",cols)
+            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha,concepto,monto FROM caja",cols)
             );
         } catch(SQLException ex){
         }

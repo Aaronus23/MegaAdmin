@@ -5,11 +5,16 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.Vector;
+
 /**
  *
  * @author Jesús Ernesto
  */
 public class BuscarCliente extends javax.swing.JFrame {
+    Vector <String> cols;
     private static BuscarCliente instancia=null;
     public static BuscarCliente getInstance(){
         if(instancia==null){
@@ -21,6 +26,13 @@ public class BuscarCliente extends javax.swing.JFrame {
      * Creates new form BuscarCliente
      */
     public BuscarCliente() {
+        cols=new Vector<>();
+        cols.add("ID");
+        cols.add("Nombre");
+        cols.add("Telefono");
+        cols.add("Telefono2");
+        cols.add("Direccion");
+        Conector.getInstance();
         initComponents();
     }
 
@@ -47,25 +59,10 @@ public class BuscarCliente extends javax.swing.JFrame {
 
         jLabel2.setText("Buscar por ID:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Nombre", "Teléfono", "Teléfono 2", "Domicilio"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        try{
+            jTable1.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
+        } catch(SQLException ex){
+        }
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
