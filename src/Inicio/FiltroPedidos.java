@@ -15,6 +15,9 @@ public class FiltroPedidos extends javax.swing.JFrame {
     
      public String nombre,fecha,total,abono,folio;
     int row;
+    
+    public static String clase_procedencia;
+    
     private static FiltroPedidos instancia=null;
     public static FiltroPedidos getInstance(){
         if(instancia==null){
@@ -52,6 +55,11 @@ public class FiltroPedidos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PEDIDOS");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Gulim", 1, 14)); // NOI18N
         jLabel1.setText("PEDIDOS");
@@ -160,6 +168,17 @@ public class FiltroPedidos extends javax.swing.JFrame {
 
     private void AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarActionPerformed
         dispose();
+        FiltroPedidos.instancia=null;
+        folio=TablaFilPedidos.getValueAt(row,0).toString();
+        nombre=TablaFilPedidos.getValueAt(row,1).toString();
+         System.out.println(nombre);
+        fecha=TablaFilPedidos.getValueAt(row,2).toString();
+        total=TablaFilPedidos.getValueAt(row,3).toString();
+        abono=TablaFilPedidos.getValueAt(row,4).toString();
+        if(clase_procedencia=="CancelarPedido")
+            CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
+        if(clase_procedencia=="Abonar")
+            Abono.getInstance().setear(folio);
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void TablaFilPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaFilPedidosMouseClicked
@@ -172,8 +191,16 @@ public class FiltroPedidos extends javax.swing.JFrame {
         fecha=TablaFilPedidos.getValueAt(row,2).toString();
         total=TablaFilPedidos.getValueAt(row,3).toString();
         abono=TablaFilPedidos.getValueAt(row,4).toString();
-        CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
+        if(clase_procedencia=="CancelarPedido")
+            CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
+        if(clase_procedencia=="Abonar")
+            Abono.getInstance().setear(folio);
     }//GEN-LAST:event_TablaFilPedidosMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        FiltroPedidos.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

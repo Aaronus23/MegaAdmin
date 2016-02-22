@@ -63,6 +63,11 @@ public class FiltroClientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CLIENTES");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Gulim", 1, 14)); // NOI18N
         jLabel1.setText("CLIENTES");
@@ -157,6 +162,7 @@ public class FiltroClientes extends javax.swing.JFrame {
 
     private void AceptarEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarEliminarActionPerformed
         dispose();
+        FiltroClientes.instancia=null;
         id=TablaClientesEliminar.getValueAt(row,0).toString();
         nombre=TablaClientesEliminar.getValueAt(row,1).toString();
         telefono=TablaClientesEliminar.getValueAt(row,2).toString();
@@ -175,6 +181,11 @@ public class FiltroClientes extends javax.swing.JFrame {
         direccion=TablaClientesEliminar.getValueAt(row,4).toString();
         EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
     }//GEN-LAST:event_TablaClientesEliminarMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+                    dispose();
+                    FiltroClientes.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

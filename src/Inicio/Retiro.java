@@ -51,6 +51,11 @@ public class Retiro extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("RETIRO DE EFECTIVO");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Cantidad a Retirar de la Caja ($):");
 
@@ -130,6 +135,11 @@ public class Retiro extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_RetirarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        Retiro.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

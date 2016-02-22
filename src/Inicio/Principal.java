@@ -20,11 +20,8 @@ import javax.swing.ImageIcon;
  */
 public class Principal extends javax.swing.JFrame {
     
-        BufferedImage img=null;
-        
-
-    
-    
+    BufferedImage img=null;
+ 
    private static Principal instancia=null;
     
     public static Principal getInstance(){
@@ -83,6 +80,11 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MEGA GRAPHICS");
         setAutoRequestFocus(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
 
@@ -301,7 +303,8 @@ public class Principal extends javax.swing.JFrame {
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Realmente desea salir del sistema?");
         if(opc==JOptionPane.YES_OPTION)
-            dispose();       
+            dispose();   
+            Principal.instancia=null;
     }//GEN-LAST:event_SalirActionPerformed
 
     private void GenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarReporteActionPerformed
@@ -335,6 +338,11 @@ public class Principal extends javax.swing.JFrame {
     private void EliminarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClientesActionPerformed
         EliminarCliente.getInstance().setVisible(true);
     }//GEN-LAST:event_EliminarClientesActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        Principal.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

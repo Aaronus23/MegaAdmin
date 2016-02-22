@@ -53,6 +53,11 @@ public class Reporte extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("GENERAR REPORTE");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Desde:");
 
@@ -138,8 +143,14 @@ public class Reporte extends javax.swing.JFrame {
                 }
             }
             dispose();
+            Reporte.instancia=null;
         }
     }//GEN-LAST:event_GenerarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        Reporte.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

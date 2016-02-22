@@ -49,6 +49,11 @@ public class VerPedido extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PEDIDOS");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         TablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -162,12 +167,18 @@ public class VerPedido extends javax.swing.JFrame {
         if(opc==JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
             dispose();
+            VerPedido.instancia=null;
         }
     }//GEN-LAST:event_PDFPedidoActionPerformed
 
     private void FiltroPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroPedidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FiltroPedidoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        VerPedido.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

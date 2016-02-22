@@ -61,6 +61,11 @@ public class EliminarCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("ELIMINAR CLIENTE");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Filtrar.setText("Buscar Cliente");
         Filtrar.addActionListener(new java.awt.event.ActionListener() {
@@ -207,9 +212,15 @@ public class EliminarCliente extends javax.swing.JFrame {
             if(opc==JOptionPane.YES_OPTION){
                 JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
                 dispose();
+                instancia=null;
             }
         }
     }//GEN-LAST:event_EliminarClienteActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

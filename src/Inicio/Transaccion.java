@@ -39,6 +39,11 @@ public class Transaccion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("TRANSACCIONES");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         Abonar.setText("Abonar a un Pedido");
         Abonar.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +104,11 @@ public class Transaccion extends javax.swing.JFrame {
     private void IngresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresoActionPerformed
         Otros.getInstance().setVisible(true);
     }//GEN-LAST:event_IngresoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        Transaccion.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

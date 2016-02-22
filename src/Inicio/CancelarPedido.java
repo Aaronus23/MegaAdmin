@@ -65,6 +65,11 @@ public class CancelarPedido extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CANCELAR PEDIDO");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Ingrese Folio del Pedido:");
 
@@ -220,6 +225,7 @@ public class CancelarPedido extends javax.swing.JFrame {
 
     private void FiltroCalPedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroCalPedActionPerformed
         FiltroPedidos.getInstance().setVisible(true);
+        FiltroPedidos.clase_procedencia="CancelarPedido";
     }//GEN-LAST:event_FiltroCalPedActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
@@ -232,6 +238,7 @@ public class CancelarPedido extends javax.swing.JFrame {
             if(opc==JOptionPane.YES_OPTION){
                 JOptionPane.showMessageDialog(null, "¡Pedio cancelado exitosamente!");
                 dispose();
+                CancelarPedido.instancia=null;
             }
         }
     }//GEN-LAST:event_CancelarActionPerformed
@@ -241,6 +248,11 @@ public class CancelarPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Coloca por favor el número de pedido",null,JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_VerificarDatosActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+            dispose();
+            CancelarPedido.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

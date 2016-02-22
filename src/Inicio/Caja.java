@@ -97,6 +97,11 @@ public class Caja extends javax.swing.JFrame {
                 formFocusGained(evt);
             }
         });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("De:");
 
@@ -294,12 +299,18 @@ public class Caja extends javax.swing.JFrame {
                 Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
             }
             dispose();
+            Caja.instancia=null;
         }
     }//GEN-LAST:event_PDFActionPerformed
 
     private void FiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FiltroActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        Caja.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

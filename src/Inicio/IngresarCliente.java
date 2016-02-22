@@ -54,6 +54,11 @@ public class IngresarCliente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("INGRESAR NUEVO CLIENTE");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jLabel1.setText("Nombre:");
 
@@ -155,9 +160,15 @@ public class IngresarCliente extends javax.swing.JFrame {
                 }
                     
                 dispose();
+                IngresarCliente.instancia=null;
             }
         }
     }//GEN-LAST:event_AceptarNuevoActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        IngresarCliente.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
