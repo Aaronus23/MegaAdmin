@@ -42,10 +42,16 @@ public class VerPedido extends javax.swing.JFrame {
         jFormattedTextField1 = new javax.swing.JFormattedTextField(new Date());
         jLabel2 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField(new Date());
-        FiltroPedido = new javax.swing.JButton();
-        PDFPedido = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         Filtro = new javax.swing.JTextField();
+        ChekFecha = new javax.swing.JCheckBox();
+        InsertarPedidoV = new javax.swing.JButton();
+        EliminarPedidoV = new javax.swing.JButton();
+        NotaVenta = new javax.swing.JButton();
+        TotalV = new javax.swing.JFormattedTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        AbonarPedidoV = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PEDIDOS");
@@ -84,20 +90,6 @@ public class VerPedido extends javax.swing.JFrame {
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
-        FiltroPedido.setText("Filtrar");
-        FiltroPedido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FiltroPedidoActionPerformed(evt);
-            }
-        });
-
-        PDFPedido.setText("Generar PDF");
-        PDFPedido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PDFPedidoActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Filtrar Datos:");
 
         Filtro.addActionListener(new java.awt.event.ActionListener() {
@@ -106,53 +98,130 @@ public class VerPedido extends javax.swing.JFrame {
             }
         });
 
+        ChekFecha.setText("Filtrar por Fecha");
+
+        InsertarPedidoV.setText("Insertar Pedido");
+        InsertarPedidoV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InsertarPedidoVActionPerformed(evt);
+            }
+        });
+
+        EliminarPedidoV.setText("Eliminar Pedido");
+        EliminarPedidoV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarPedidoVActionPerformed(evt);
+            }
+        });
+
+        NotaVenta.setText("Generar Nota de Venta");
+        NotaVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NotaVentaActionPerformed(evt);
+            }
+        });
+
+        TotalV.setEditable(false);
+        TotalV.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
+        jLabel4.setText("TOTAL ($):");
+
+        jButton1.setText("Hacer Orden de Producción");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        AbonarPedidoV.setText("Abonar a este Pedido");
+        AbonarPedidoV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AbonarPedidoVActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(PDFPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(428, 428, 428))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ChekFecha)
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(FiltroPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                        .addGap(358, 358, 358))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(InsertarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(EliminarPedidoV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(NotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FiltroPedido))
+                    .addComponent(ChekFecha)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PDFPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(75, 75, 75))
+                    .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(InsertarPedidoV)
+                                    .addComponent(jButton1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(EliminarPedidoV)
+                                    .addComponent(NotaVenta))
+                                .addGap(5, 5, 5)
+                                .addComponent(AbonarPedidoV))
+                            .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))))
         );
 
         pack();
@@ -162,23 +231,53 @@ public class VerPedido extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FiltroActionPerformed
 
-    private void PDFPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PDFPedidoActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        dispose();
+        VerPedido.instancia=null;
+    }//GEN-LAST:event_formWindowClosed
+
+    private void EliminarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarPedidoVActionPerformed
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este pedido?","Eliminar",JOptionPane.WARNING_MESSAGE);
+            if(opc==JOptionPane.YES_OPTION){
+                JOptionPane.showMessageDialog(null, "¡Datos del pedido eliminados exitosamente!");
+                dispose();
+                instancia=null;
+            }
+    }//GEN-LAST:event_EliminarPedidoVActionPerformed
+
+    private void InsertarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarPedidoVActionPerformed
+        NuevoPedido.getInstance().setVisible(true);
+    }//GEN-LAST:event_InsertarPedidoVActionPerformed
+
+    private void NotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotaVentaActionPerformed
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.WARNING_MESSAGE);
+        if(opc==JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(null, "¡Nota de venta generado con éxito!");
+            dispose();
+            VerPedido.instancia=null;
+        }
+    }//GEN-LAST:event_NotaVentaActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
             dispose();
             VerPedido.instancia=null;
         }
-    }//GEN-LAST:event_PDFPedidoActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void FiltroPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroPedidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FiltroPedidoActionPerformed
-
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        dispose();
-        VerPedido.instancia=null;
-    }//GEN-LAST:event_formWindowClosed
+    private void AbonarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarPedidoVActionPerformed
+        String cantS=JOptionPane.showInputDialog(null,"Cantidad a abonar","Abono");
+        int cantI=Integer.parseInt(cantS);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","Abono",JOptionPane.WARNING_MESSAGE);
+        if(opc==JOptionPane.YES_OPTION){
+            cantI=0;//esta linea es para no abonara cantidades gardadas anteriormente
+            JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+            dispose();
+            VerPedido.instancia=null;
+        }
+    }//GEN-LAST:event_AbonarPedidoVActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,15 +315,21 @@ public class VerPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AbonarPedidoV;
+    private javax.swing.JCheckBox ChekFecha;
+    private javax.swing.JButton EliminarPedidoV;
     public javax.swing.JTextField Filtro;
-    public javax.swing.JButton FiltroPedido;
-    public javax.swing.JButton PDFPedido;
+    private javax.swing.JButton InsertarPedidoV;
+    private javax.swing.JButton NotaVenta;
     public javax.swing.JTable TablaPedidos;
+    private javax.swing.JFormattedTextField TotalV;
+    private javax.swing.JButton jButton1;
     public javax.swing.JFormattedTextField jFormattedTextField1;
     public javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
