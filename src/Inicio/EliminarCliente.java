@@ -5,7 +5,13 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import notas.dat;
 
 /**
  *
@@ -23,6 +29,7 @@ public class EliminarCliente extends javax.swing.JFrame {
      * Creates new form EliminarCliente
      */
     public EliminarCliente() {
+        Conector.getInstance();
         initComponents();
     }
     
@@ -57,7 +64,7 @@ public class EliminarCliente extends javax.swing.JFrame {
         EliminarCliente = new javax.swing.JButton();
         VerificarCliente = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        FiltrarIdEli = new javax.swing.JTextField();
+        FiltrarIdEli = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("ELIMINAR CLIENTE");
@@ -171,18 +178,20 @@ public class EliminarCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(VerificarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(EliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(FiltrarIdEli, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(135, 135, 135)
-                        .addComponent(Filtrar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(VerificarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(EliminarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FiltrarIdEli, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Filtrar)
+                        .addGap(60, 60, 60))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,6 +243,20 @@ public class EliminarCliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_VerificarClienteActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Conector.getInstance().Buscar("SELECT * FROM cliente WHERE id="+FiltrarIdEli.getText());
+            if(Conector.getInstance().cdr.next()) {
+                    NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
+                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
+                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
+                    DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -273,7 +296,7 @@ public class EliminarCliente extends javax.swing.JFrame {
     public javax.swing.JTextPane DireccionEli;
     public javax.swing.JButton EliminarCliente;
     public javax.swing.JButton Filtrar;
-    public javax.swing.JTextField FiltrarIdEli;
+    private javax.swing.JFormattedTextField FiltrarIdEli;
     public javax.swing.JTextField NombreEli;
     public javax.swing.JTextField Telefono2Eli;
     public javax.swing.JTextField TelefonoEli;

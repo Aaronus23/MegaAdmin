@@ -5,7 +5,12 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -29,7 +34,20 @@ public class NuevoPedido extends javax.swing.JFrame {
     }
     
     public NuevoPedido() {
+        Conector.getInstance();
         initComponents();
+        try {
+            Conector.getInstance().Buscar("SELECT * FROM pedido ORDER BY id DESC LIMIT 1");
+            if(Conector.getInstance().cdr.next()){
+                Id.setText((Conector.getInstance().cdr.getInt("id")+1)+"");
+            }
+            else
+                Id.setText("1");
+        }
+         catch (SQLException ex) {
+            Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -84,7 +102,7 @@ public class NuevoPedido extends javax.swing.JFrame {
         jLabel7.setText("Fecha:");
 
         Fecha.setEditable(false);
-        Fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        Fecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
         Fecha.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FechaActionPerformed(evt);
@@ -122,8 +140,8 @@ public class NuevoPedido extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(BuscarClienteN, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BuscarClienteN, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
                         .addComponent(GenerarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,7 +179,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                                             .addGap(1, 1, 1)
                                             .addComponent(jLabel7))
                                         .addComponent(jLabel5)))))))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,11 +233,20 @@ public class NuevoPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         }
         else{
+            String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente agregar nuevo pedido?","Pedido",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
-                dispose();
-                NuevoPedido.instancia=null;
+                try {
+                    Conector.getInstance().Insertar("INSERT INTO pedido VALUES("+Id.getText()+",'"+fecha+"',"+IdCliente.getText()+",'"+Concepto.getText()+"',"+Total.getText()+","+AbonoTotal.getText()+")");
+                    Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+Id.getText()+","+AbonoTotal.getText()+")");
+                    JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
+                    dispose();
+                    NuevoPedido.instancia=null;
+                } catch (SQLException ex) {
+                    if(ex.getSQLState().startsWith("23"))
+                        JOptionPane.showMessageDialog(null,"Cliente Inexistente");
+                    Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_GenerarBtnActionPerformed

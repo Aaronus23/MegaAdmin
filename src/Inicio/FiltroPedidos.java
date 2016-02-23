@@ -49,9 +49,9 @@ public class FiltroPedidos extends javax.swing.JFrame {
         ChekFecha = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField(new Date());
-        jFormattedTextField2 = new javax.swing.JFormattedTextField(new Date());
-        jTextField1 = new javax.swing.JTextField();
+        FechaInicial = new javax.swing.JFormattedTextField(new Date());
+        FechaFinal = new javax.swing.JFormattedTextField(new Date());
+        Filtro = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PEDIDOS");
@@ -101,14 +101,19 @@ public class FiltroPedidos extends javax.swing.JFrame {
         jLabel2.setText("Filtrar:");
 
         ChekFecha.setText("Filtrar por Fecha");
+        ChekFecha.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ChekFechaStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Fecha Inicial:");
 
         jLabel4.setText("Fecha Final:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        FechaInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,17 +128,17 @@ public class FiltroPedidos extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                         .addComponent(ChekFecha)
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(97, 97, 97))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -153,9 +158,9 @@ public class FiltroPedidos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ChekFecha)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -177,9 +182,9 @@ public class FiltroPedidos extends javax.swing.JFrame {
         fecha=TablaFilPedidos.getValueAt(row,2).toString();
         total=TablaFilPedidos.getValueAt(row,3).toString();
         abono=TablaFilPedidos.getValueAt(row,4).toString();
-        if(clase_procedencia=="CancelarPedido")
+        if("CancelarPedido".equals(clase_procedencia))
             CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
-        if(clase_procedencia=="Abonar")
+        if("Abonar".equals(clase_procedencia))
             Abono.getInstance().setear(folio);
     }//GEN-LAST:event_AceptarActionPerformed
 
@@ -208,6 +213,18 @@ public class FiltroPedidos extends javax.swing.JFrame {
         dispose();
         FiltroPedidos.instancia=null;
     }//GEN-LAST:event_formWindowClosed
+
+    private void ChekFechaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaStateChanged
+        if(ChekFecha.isSelected()==true)
+        {
+            FechaInicial.setEditable(true);
+            FechaFinal.setEditable(true);
+        }
+        else{
+            FechaInicial.setEditable(false);
+            FechaFinal.setEditable(false);
+        }
+    }//GEN-LAST:event_ChekFechaStateChanged
 
     /**
      * @param args the command line arguments
@@ -247,14 +264,14 @@ public class FiltroPedidos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton Aceptar;
     public javax.swing.JCheckBox ChekFecha;
+    public javax.swing.JFormattedTextField FechaFinal;
+    public javax.swing.JFormattedTextField FechaInicial;
+    public javax.swing.JTextField Filtro;
     public javax.swing.JTable TablaFilPedidos;
-    public javax.swing.JFormattedTextField jFormattedTextField1;
-    public javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

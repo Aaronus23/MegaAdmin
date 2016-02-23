@@ -56,8 +56,8 @@ public class FiltroClientes extends javax.swing.JFrame {
         TablaClientesEliminar = new javax.swing.JTable();
         AceptarEliminar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        Filtro = new javax.swing.JTextField();
+        FiltroFecha = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         FechaInicial = new javax.swing.JFormattedTextField(new Date());
         jLabel4 = new javax.swing.JLabel();
@@ -94,13 +94,20 @@ public class FiltroClientes extends javax.swing.JFrame {
 
         jLabel2.setText("Filtrar:");
 
-        jCheckBox1.setText("Filtrar por Fecha");
+        FiltroFecha.setText("Filtrar por Fecha");
+        FiltroFecha.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                FiltroFechaStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Fecha Inicial:");
 
         FechaInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
 
         jLabel4.setText("Fecha Final:");
+
+        FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,9 +125,9 @@ public class FiltroClientes extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jCheckBox1))
+                                        .addComponent(FiltroFecha))
                                     .addComponent(jLabel2)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(280, 280, 280)
@@ -146,8 +153,8 @@ public class FiltroClientes extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FiltroFecha)
                     .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16)
@@ -198,6 +205,18 @@ public class FiltroClientes extends javax.swing.JFrame {
                     FiltroClientes.instancia=null;
     }//GEN-LAST:event_formWindowClosed
 
+    private void FiltroFechaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_FiltroFechaStateChanged
+        if(FiltroFecha.isSelected()==true)
+        {
+            FechaInicial.setEditable(true);
+            FechaFinal.setEditable(true);
+        }
+        else{
+            FechaInicial.setEditable(false);
+            FechaFinal.setEditable(false);
+        }
+    }//GEN-LAST:event_FiltroFechaStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -237,13 +256,13 @@ public class FiltroClientes extends javax.swing.JFrame {
     public javax.swing.JButton AceptarEliminar;
     public javax.swing.JFormattedTextField FechaFinal;
     public javax.swing.JFormattedTextField FechaInicial;
+    public javax.swing.JTextField Filtro;
+    public javax.swing.JCheckBox FiltroFecha;
     public javax.swing.JTable TablaClientesEliminar;
-    public javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

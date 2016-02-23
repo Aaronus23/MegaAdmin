@@ -5,7 +5,13 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -14,6 +20,7 @@ import javax.swing.*;
  */
 public class VerPedido extends javax.swing.JFrame {
     private static VerPedido instancia=null;
+    Vector<String> cols;
     public static VerPedido getInstance(){
         if(instancia==null){
             instancia=new VerPedido();
@@ -23,7 +30,15 @@ public class VerPedido extends javax.swing.JFrame {
     /**
      * Creates new form VerPedido
      */
-    public VerPedido() {
+    public VerPedido() {   
+        cols=new Vector<>();
+        cols.add("Folio");
+        cols.add("Fecha");
+        cols.add("Nombre");
+        cols.add("Concepto");
+        cols.add("Abonado");
+        cols.add("Total");
+        Conector.getInstance();
         initComponents();
     }
 
@@ -39,9 +54,9 @@ public class VerPedido extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TablaPedidos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField(new Date());
+        FechaInicial = new javax.swing.JFormattedTextField(new Date());
         jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField(new Date());
+        FechaFinal = new javax.swing.JFormattedTextField(new Date());
         jLabel3 = new javax.swing.JLabel();
         Filtro = new javax.swing.JTextField();
         ChekFecha = new javax.swing.JCheckBox();
@@ -61,34 +76,19 @@ public class VerPedido extends javax.swing.JFrame {
             }
         });
 
-        TablaPedidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID del Pedido", "Nombre del Cliente", "Fecha", "Total ($)", "Abono Total ($)", "Concepto"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        try{
+            TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
+        } catch(SQLException ex){
+        }
         jScrollPane2.setViewportView(TablaPedidos);
 
         jLabel1.setText("Fecha Inicial:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        FechaInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel2.setText("Fecha Final:");
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel3.setText("Filtrar Datos:");
 
@@ -99,6 +99,11 @@ public class VerPedido extends javax.swing.JFrame {
         });
 
         ChekFecha.setText("Filtrar por Fecha");
+        ChekFecha.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ChekFechaStateChanged(evt);
+            }
+        });
 
         InsertarPedidoV.setText("Insertar Pedido");
         InsertarPedidoV.addActionListener(new java.awt.event.ActionListener() {
@@ -147,44 +152,39 @@ public class VerPedido extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(428, 428, 428))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ChekFecha)
                         .addGap(55, 55, 55)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                        .addGap(358, 358, 358))
-                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(InsertarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(EliminarPedidoV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(EliminarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(NotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -194,9 +194,9 @@ public class VerPedido extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ChekFecha)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(FechaInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -239,9 +239,18 @@ public class VerPedido extends javax.swing.JFrame {
     private void EliminarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarPedidoVActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este pedido?","Eliminar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Datos del pedido eliminados exitosamente!");
-                dispose();
-                instancia=null;
+                int id=TablaPedidos.getSelectedRow();
+                if(id==-1)
+                    JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+                else{
+                    try {
+                        Conector.getInstance().Insertar("DELETE FROM pedido WHERE id="+TablaPedidos.getValueAt(id,0));
+                        JOptionPane.showMessageDialog(null, "¡Datos del pedido eliminados exitosamente!");
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+                        Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
     }//GEN-LAST:event_EliminarPedidoVActionPerformed
 
@@ -252,6 +261,7 @@ public class VerPedido extends javax.swing.JFrame {
     private void NotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotaVentaActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
+    
             JOptionPane.showMessageDialog(null, "¡Nota de venta generado con éxito!");
             dispose();
             VerPedido.instancia=null;
@@ -262,22 +272,40 @@ public class VerPedido extends javax.swing.JFrame {
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
-            dispose();
-            VerPedido.instancia=null;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void AbonarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarPedidoVActionPerformed
         String cantS=JOptionPane.showInputDialog(null,"Cantidad a abonar","Abono");
-        int cantI=Integer.parseInt(cantS);
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","Abono",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
-            cantI=0;//esta linea es para no abonara cantidades gardadas anteriormente
-            JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
-            dispose();
-            VerPedido.instancia=null;
+            String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            int id= TablaPedidos.getSelectedRow();
+            if(id==-1)
+                JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+            else{
+                try {
+                    Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");
+                    Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
+                    JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+                } catch (SQLException ex) {
+                    Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }//GEN-LAST:event_AbonarPedidoVActionPerformed
+
+    private void ChekFechaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaStateChanged
+        if(ChekFecha.isSelected()==true)
+        {
+            FechaInicial.setEditable(true);
+            FechaFinal.setEditable(true);
+        }
+        else{
+            FechaInicial.setEditable(false);
+            FechaFinal.setEditable(false);
+        }
+    }//GEN-LAST:event_ChekFechaStateChanged
 
     /**
      * @param args the command line arguments
@@ -318,14 +346,14 @@ public class VerPedido extends javax.swing.JFrame {
     private javax.swing.JButton AbonarPedidoV;
     private javax.swing.JCheckBox ChekFecha;
     private javax.swing.JButton EliminarPedidoV;
+    public javax.swing.JFormattedTextField FechaFinal;
+    public javax.swing.JFormattedTextField FechaInicial;
     public javax.swing.JTextField Filtro;
     private javax.swing.JButton InsertarPedidoV;
     private javax.swing.JButton NotaVenta;
     public javax.swing.JTable TablaPedidos;
     private javax.swing.JFormattedTextField TotalV;
     private javax.swing.JButton jButton1;
-    public javax.swing.JFormattedTextField jFormattedTextField1;
-    public javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
