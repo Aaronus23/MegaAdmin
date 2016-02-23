@@ -250,9 +250,7 @@ public class Abono extends javax.swing.JFrame {
             if(opc==JOptionPane.YES_OPTION){
                 int id=Integer.parseInt(NumeroOrden.getText());
                 BigDecimal monto= new BigDecimal(Cantidad.getText());  
-                Date date=new Date();
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String fecha= sdf.format(date);
+                String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 String query;
                 query = "INSERT INTO abono VALUES(NULL,'"+fecha+"','"+id+"',"+monto.toString()+")";
                 try {

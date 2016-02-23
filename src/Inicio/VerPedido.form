@@ -57,7 +57,7 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="InsertarPedidoV" max="32767" attributes="0"/>
-                                          <Component id="EliminarPedidoV" alignment="0" pref="173" max="32767" attributes="0"/>
+                                          <Component id="EliminarPedidoV" alignment="0" max="32767" attributes="0"/>
                                           <Component id="AbonarPedidoV" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
@@ -71,7 +71,7 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -135,15 +135,8 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="TablaPedidos">
           <Properties>
-            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="4">
-                <Column editable="true" title="ID del Pedido" type="java.lang.Integer"/>
-                <Column editable="true" title="Nombre del Cliente" type="java.lang.String"/>
-                <Column editable="true" title="Fecha" type="java.lang.String"/>
-                <Column editable="true" title="Total ($)" type="java.lang.Integer"/>
-                <Column editable="true" title="Abono Total ($)" type="java.lang.Integer"/>
-                <Column editable="true" title="Concepto" type="java.lang.String"/>
-              </Table>
+            <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor" postCode="} catch(SQLException ex){&#xa;}">
+              <Connection code="Conector.getInstance().buildTableModel(&quot;SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total FROM pedido JOIN cliente ON pedido.idCliente=cliente.id&quot;,cols)" type="code"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
@@ -184,6 +177,7 @@
             </Property>
           </Properties>
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="try{"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>

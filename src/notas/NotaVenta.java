@@ -33,6 +33,14 @@ public class NotaVenta {
         String total;
         int restante;
         String folio;
+        
+    private static NotaVenta instancia=null;
+    public static NotaVenta getInstance(){
+        if(instancia==null){
+            instancia=new NotaVenta();
+        }
+        return instancia;
+    }
     
     void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
         int a,b;
@@ -109,7 +117,7 @@ public class NotaVenta {
         cell.setBorder(0);
         table.addCell(cell);
         
-        cell=new PdfPCell(new Phrase("         Av. Independencia No. \n        Datos varios\n        Datos varios\n\n\n ",font));
+        cell=new PdfPCell(new Phrase("      Av. Independencia No. 1864-A \n      Fracc. Jardines de la Concepción\n      Producción: \n      Municipio de Pabellón de Arteaga No. 122\n      Parque Industrial del Valle de Aguascalientes\n      San Francisco de los Romo, Ags ",font));
         cell.setColspan(3);
         cell.setBorder(0);
         table.addCell(cell);

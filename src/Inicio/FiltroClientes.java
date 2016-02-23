@@ -19,6 +19,8 @@ public class FiltroClientes extends javax.swing.JFrame {
     int row;
     Vector <String> cols;
     
+    public static String clase_procedencia;
+    
     private static FiltroClientes instancia=null;
     public static FiltroClientes getInstance(){
         if(instancia==null){
@@ -175,18 +177,27 @@ public class FiltroClientes extends javax.swing.JFrame {
         telefono=TablaClientesEliminar.getValueAt(row,2).toString();
         telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
         direccion=TablaClientesEliminar.getValueAt(row,4).toString();
-        EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
+        if(clase_procedencia=="EliminarCliente")
+            EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
+        if(clase_procedencia=="NuevoPedido")
+            NuevoPedido.getInstance().setear(nombre, id);
     }//GEN-LAST:event_AceptarEliminarActionPerformed
 
     private void TablaClientesEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesEliminarMouseClicked
-        
         row = TablaClientesEliminar.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount()==2) {
         id=TablaClientesEliminar.getValueAt(row,0).toString();
         nombre=TablaClientesEliminar.getValueAt(row,1).toString();
         telefono=TablaClientesEliminar.getValueAt(row,2).toString();
         telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
         direccion=TablaClientesEliminar.getValueAt(row,4).toString();
-        EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
+        if(clase_procedencia=="EliminarCliente")
+            EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
+        if(clase_procedencia=="NuevoPedido")
+            NuevoPedido.getInstance().setear(nombre, id);
+        dispose();
+        FiltroClientes.instancia=null;
+        }
     }//GEN-LAST:event_TablaClientesEliminarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

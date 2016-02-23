@@ -39,6 +39,15 @@ public class NotaCaja{
         
     }
     
+        private static NotaCaja instancia=null;
+    
+    public static NotaCaja getInstance(){
+        if(instancia==null){
+            instancia=new NotaCaja();
+        }
+        return instancia;
+    }
+    
         class ImageBackgroundEvent implements PdfPCellEvent {
  
         protected Image image;
@@ -71,6 +80,7 @@ public class NotaCaja{
 	throws DocumentException, IOException {
         
         dat contenedor=new dat();
+        int total=0;
         
         Date curDate = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -97,7 +107,7 @@ public class NotaCaja{
         cell.setBorder(0);
         table.addCell(cell);
         
-        cell=new PdfPCell(new Phrase("         Av. Independencia No. \n        Datos varios\n        Datos varios\n\n\n ",font));
+        cell=new PdfPCell(new Phrase("      Av. Independencia No. 1864-A \n      Fracc. Jardines de la Concepción\n      Producción: \n      Municipio de Pabellón de Arteaga No. 122\n      Parque Industrial del Valle de Aguascalientes\n      San Francisco de los Romo, Ags ",font));
         cell.setColspan(3);
         cell.setBorder(0);
         table.addCell(cell);
@@ -165,11 +175,26 @@ public class NotaCaja{
             cell.setColspan(3);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
-        
+            
+            int n=Integer.parseInt(contenedor.monto);
+            total+=n;
             cell=new PdfPCell(new Phrase(" "+contenedor.monto));
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
         }
+        
+        cell=new PdfPCell(new Phrase(" "));
+        cell.setColspan(3);
+        cell.setBorder(0);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase("     Total "));
+        cell.setBorder(0);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase(" "+total));
+        cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
+        table.addCell(cell);
         
         document.add(table);
         

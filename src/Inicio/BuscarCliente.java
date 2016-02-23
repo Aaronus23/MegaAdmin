@@ -8,6 +8,8 @@ package Inicio;
 import Conector.Conector;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -81,7 +83,7 @@ public class BuscarCliente extends javax.swing.JFrame {
             }
         });
 
-        InsertarClienteB.setText("Inertar Cliente");
+        InsertarClienteB.setText("Insertar Cliente");
         InsertarClienteB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InsertarClienteBActionPerformed(evt);
@@ -142,9 +144,14 @@ public class BuscarCliente extends javax.swing.JFrame {
     private void EliminarClienteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteBActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
-                dispose();
-                instancia=null;
+                try {
+                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().jTable1.getValueAt(BuscarCliente.getInstance().jTable1.getSelectedRow(),0));
+                    JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
+                    dispose();
+                    instancia=null;
+                } catch (SQLException ex) {
+                    Logger.getLogger(BuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
     }//GEN-LAST:event_EliminarClienteBActionPerformed
     /**

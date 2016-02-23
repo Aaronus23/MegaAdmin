@@ -5,7 +5,12 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -23,8 +28,26 @@ public class NuevoPedido extends javax.swing.JFrame {
     /**
      * Creates new form NuevoPedido
      */
+    public void setear(String nombre, String folio) {
+        Nombre.setText(nombre);
+        IdCliente.setText(folio);
+    }
+    
     public NuevoPedido() {
+        Conector.getInstance();
         initComponents();
+        try {
+            Conector.getInstance().Buscar("SELECT * FROM pedido ORDER BY id DESC LIMIT 1");
+            if(Conector.getInstance().cdr.next()){
+                Id.setText((Conector.getInstance().cdr.getInt("id")+1)+"");
+            }
+            else
+                Id.setText("1");
+        }
+         catch (SQLException ex) {
+            Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -210,11 +233,20 @@ public class NuevoPedido extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         }
         else{
+            String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente agregar nuevo pedido?","Pedido",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
-                dispose();
-                NuevoPedido.instancia=null;
+                try {
+                    Conector.getInstance().Insertar("INSERT INTO pedido VALUES("+Id.getText()+",'"+fecha+"',"+IdCliente.getText()+",'"+Concepto.getText()+"',"+Total.getText()+","+AbonoTotal.getText()+")");
+                    Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+Id.getText()+","+AbonoTotal.getText()+")");
+                    JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
+                    dispose();
+                    NuevoPedido.instancia=null;
+                } catch (SQLException ex) {
+                    if(ex.getSQLState().startsWith("23"))
+                        JOptionPane.showMessageDialog(null,"Cliente Inexistente");
+                    Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_GenerarBtnActionPerformed
@@ -225,7 +257,8 @@ public class NuevoPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void BuscarClienteNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarClienteNActionPerformed
-        BuscarCliente.getInstance().setVisible(true);
+        FiltroClientes.getInstance().setVisible(true);
+        FiltroClientes.clase_procedencia="NuevoPedido";
     }//GEN-LAST:event_BuscarClienteNActionPerformed
 
     /**

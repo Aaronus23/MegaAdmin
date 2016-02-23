@@ -130,6 +130,7 @@ public class Reporte extends javax.swing.JFrame {
                     empty = false;
                 }
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.");
                 Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(empty) JOptionPane.showMessageDialog(null, "¡Ninguna transaccion en esa fecha!");
@@ -139,6 +140,7 @@ public class Reporte extends javax.swing.JFrame {
                     nota.createPdf("Caja.pdf",datos);
                     JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
                 } catch (DocumentException | IOException ex) {
+                    JOptionPane.showMessageDialog(null, "No se pudo generar el reporte");
                     Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
