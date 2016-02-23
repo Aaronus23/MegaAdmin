@@ -5,7 +5,13 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
+import notas.dat;
 
 /**
  *
@@ -23,6 +29,7 @@ public class EliminarCliente extends javax.swing.JFrame {
      * Creates new form EliminarCliente
      */
     public EliminarCliente() {
+        Conector.getInstance();
         initComponents();
     }
     
@@ -155,6 +162,11 @@ public class EliminarCliente extends javax.swing.JFrame {
         });
 
         jButton1.setText("Verificar Cliente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Clave del Cliente:");
 
@@ -205,7 +217,7 @@ public class EliminarCliente extends javax.swing.JFrame {
 
     private void EliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteActionPerformed
         if("".equals(FiltrarIdEli.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor la clave dle cliente",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.WARNING_MESSAGE);
         }
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
@@ -221,6 +233,20 @@ public class EliminarCliente extends javax.swing.JFrame {
         dispose();
         instancia=null;
     }//GEN-LAST:event_formWindowClosed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Conector.getInstance().Buscar("SELECT * FROM cliente WHERE id="+FiltrarIdEli.getText());
+            if(Conector.getInstance().cdr.next()) {
+                    NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
+                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
+                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
+                    DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
+            }            
+        } catch (SQLException ex) {
+            Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

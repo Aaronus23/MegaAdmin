@@ -175,9 +175,9 @@ public class FiltroPedidos extends javax.swing.JFrame {
         fecha=TablaFilPedidos.getValueAt(row,2).toString();
         total=TablaFilPedidos.getValueAt(row,3).toString();
         abono=TablaFilPedidos.getValueAt(row,4).toString();
-        if(clase_procedencia=="CancelarPedido")
+        if("CancelarPedido".equals(clase_procedencia))
             CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
-        if(clase_procedencia=="Abonar")
+        if("Abonar".equals(clase_procedencia))
             Abono.getInstance().setear(folio);
     }//GEN-LAST:event_AceptarActionPerformed
 
