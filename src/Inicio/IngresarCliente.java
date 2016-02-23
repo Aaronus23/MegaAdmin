@@ -151,7 +151,6 @@ public class IngresarCliente extends javax.swing.JFrame {
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente agregar este cliente?","Cliente nuevo",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 try {
-                    JOptionPane.showMessageDialog(null, query);
                     Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Cliente registrado con éxito!");
                 } catch (SQLException ex){ 
