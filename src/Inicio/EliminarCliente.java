@@ -253,6 +253,7 @@ public class EliminarCliente extends javax.swing.JFrame {
                     DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
             }            
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

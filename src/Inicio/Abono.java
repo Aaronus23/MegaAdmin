@@ -243,7 +243,7 @@ public class Abono extends javax.swing.JFrame {
     
     private void AbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarActionPerformed
         if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())){
-            JOptionPane.showMessageDialog(null, "Existen casillas vacias");
+            JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         }
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.WARNING_MESSAGE);
@@ -261,9 +261,9 @@ public class Abono extends javax.swing.JFrame {
 
                 } catch (SQLException ex) {
                     if(ex.getSQLState().startsWith("23"))
-                        JOptionPane.showMessageDialog(null,"Pedido Inexistente!");
+                        JOptionPane.showMessageDialog(null,"Pedido Inexistente!",null,JOptionPane.WARNING_MESSAGE);
                     else
-                        JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
+                        JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

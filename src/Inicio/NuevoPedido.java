@@ -45,6 +45,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                 Id.setText("1");
         }
          catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -244,7 +245,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                     NuevoPedido.instancia=null;
                 } catch (SQLException ex) {
                     if(ex.getSQLState().startsWith("23"))
-                        JOptionPane.showMessageDialog(null,"Cliente Inexistente");
+                        JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

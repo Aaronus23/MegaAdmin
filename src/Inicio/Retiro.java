@@ -111,7 +111,7 @@ public class Retiro extends javax.swing.JFrame {
 
     private void RetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RetirarActionPerformed
         if("".equals(CantidadRetirar.getText())||"".equals(DescripcionRetirar.getText()))
-            JOptionPane.showMessageDialog(null, "Existen casillas vacias");
+            JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente retirar dinero?","Retirar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
@@ -129,7 +129,7 @@ public class Retiro extends javax.swing.JFrame {
                     Retiro.instancia=null;
 
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

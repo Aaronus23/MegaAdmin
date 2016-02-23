@@ -130,17 +130,16 @@ public class Reporte extends javax.swing.JFrame {
                     empty = false;
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.");
+                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.",null,JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(empty) JOptionPane.showMessageDialog(null, "¡Ninguna transaccion en esa fecha!");
             else{
-                NotaCaja nota = new NotaCaja();
                 try {
-                    nota.createPdf("Caja.pdf",datos);
+                    NotaCaja.getInstance().createPdf("Caja.pdf",datos);
                     JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
                 } catch (DocumentException | IOException ex) {
-                    JOptionPane.showMessageDialog(null, "No se pudo generar el reporte");
+                    JOptionPane.showMessageDialog(null, "No se pudo generar el reporte",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
