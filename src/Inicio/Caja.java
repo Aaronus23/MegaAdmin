@@ -105,7 +105,8 @@ public class Caja extends javax.swing.JFrame {
 
         jLabel1.setText("De:");
 
-        FechaInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
+        FechaInicio.setEditable(false);
+        FechaInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
         FechaInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FechaInicioActionPerformed(evt);
@@ -119,7 +120,8 @@ public class Caja extends javax.swing.JFrame {
 
         jLabel2.setText("Hasta:");
 
-        FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
+        FechaFinal.setEditable(false);
+        FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         jLabel3.setText("Ver Total:");
 
@@ -157,6 +159,16 @@ public class Caja extends javax.swing.JFrame {
         Total.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         ChekFechaCaja.setText("Filtrar por Fecha");
+        ChekFechaCaja.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ChekFechaCajaStateChanged(evt);
+            }
+        });
+        ChekFechaCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChekFechaCajaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -277,6 +289,22 @@ public class Caja extends javax.swing.JFrame {
         dispose();
         Caja.instancia=null;
     }//GEN-LAST:event_formWindowClosed
+
+    private void ChekFechaCajaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaCajaStateChanged
+        if(ChekFechaCaja.isSelected()==true)
+        {
+            FechaInicio.setEditable(true);
+            FechaFinal.setEditable(true);
+        }
+        else{
+            FechaInicio.setEditable(false);
+            FechaFinal.setEditable(false);
+        }
+    }//GEN-LAST:event_ChekFechaCajaStateChanged
+
+    private void ChekFechaCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChekFechaCajaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChekFechaCajaActionPerformed
 
     /**
      * @param args the command line arguments
