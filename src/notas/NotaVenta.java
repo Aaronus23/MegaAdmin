@@ -33,6 +33,14 @@ public class NotaVenta {
         String total;
         int restante;
         String folio;
+        
+    private static NotaVenta instancia=null;
+    public static NotaVenta getInstance(){
+        if(instancia==null){
+            instancia=new NotaVenta();
+        }
+        return instancia;
+    }
     
     void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
         int a,b;

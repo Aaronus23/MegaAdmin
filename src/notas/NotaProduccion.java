@@ -37,6 +37,14 @@ public class NotaProduccion {
         this.Concepto=Concepto;
         this.folio=folio;
     }
+    
+        private static NotaProduccion instancia=null;
+    public static NotaProduccion getInstance(){
+        if(instancia==null){
+            instancia=new NotaProduccion();
+        }
+        return instancia;
+    }
         
     class ImageBackgroundEvent implements PdfPCellEvent {
  

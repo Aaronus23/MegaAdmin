@@ -39,6 +39,15 @@ public class NotaCaja{
         
     }
     
+        private static NotaCaja instancia=null;
+    
+    public static NotaCaja getInstance(){
+        if(instancia==null){
+            instancia=new NotaCaja();
+        }
+        return instancia;
+    }
+    
         class ImageBackgroundEvent implements PdfPCellEvent {
  
         protected Image image;

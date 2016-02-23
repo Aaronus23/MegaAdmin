@@ -81,7 +81,7 @@ public class BuscarCliente extends javax.swing.JFrame {
             }
         });
 
-        InsertarClienteB.setText("Inertar Cliente");
+        InsertarClienteB.setText("Insertar Cliente");
         InsertarClienteB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 InsertarClienteBActionPerformed(evt);
@@ -104,7 +104,7 @@ public class BuscarCliente extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(EliminarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(InsertarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

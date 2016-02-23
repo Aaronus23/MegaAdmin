@@ -177,8 +177,8 @@ public class FiltroClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_AceptarEliminarActionPerformed
 
     private void TablaClientesEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesEliminarMouseClicked
-        
         row = TablaClientesEliminar.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount()==2) {
         id=TablaClientesEliminar.getValueAt(row,0).toString();
         nombre=TablaClientesEliminar.getValueAt(row,1).toString();
         telefono=TablaClientesEliminar.getValueAt(row,2).toString();
@@ -188,6 +188,9 @@ public class FiltroClientes extends javax.swing.JFrame {
             EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
         if(clase_procedencia=="NuevoPedido")
             NuevoPedido.getInstance().setear(nombre, id);
+        dispose();
+        FiltroClientes.instancia=null;
+        }
     }//GEN-LAST:event_TablaClientesEliminarMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

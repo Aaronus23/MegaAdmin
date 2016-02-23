@@ -68,7 +68,6 @@ public class FiltroPedidos extends javax.swing.JFrame {
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
-                {null, null, null, null, null},
                 {null, null, null, null, null}
             },
             new String [] {
@@ -83,6 +82,8 @@ public class FiltroPedidos extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        TablaFilPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        TablaFilPedidos.setEnabled(false);
         TablaFilPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaFilPedidosMouseClicked(evt);
@@ -183,7 +184,8 @@ public class FiltroPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_AceptarActionPerformed
 
     private void TablaFilPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaFilPedidosMouseClicked
-             
+       
+        if(evt.getClickCount()==2) {
         row = TablaFilPedidos.rowAtPoint(evt.getPoint());
         System.out.println("hola");
         folio=TablaFilPedidos.getValueAt(row,0).toString();
@@ -196,6 +198,10 @@ public class FiltroPedidos extends javax.swing.JFrame {
             CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
         if(clase_procedencia=="Abonar")
             Abono.getInstance().setear(folio);
+        
+        dispose();
+        FiltroPedidos.instancia=null;
+        }
     }//GEN-LAST:event_TablaFilPedidosMouseClicked
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

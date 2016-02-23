@@ -230,7 +230,8 @@ public class NuevoPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void BuscarClienteNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarClienteNActionPerformed
-        BuscarCliente.getInstance().setVisible(true);
+        FiltroClientes.getInstance().setVisible(true);
+        FiltroClientes.clase_procedencia="NuevoPedido";
     }//GEN-LAST:event_BuscarClienteNActionPerformed
 
     /**
