@@ -82,13 +82,13 @@ public class Caja extends javax.swing.JFrame {
         FechaFinal = new javax.swing.JFormattedTextField(new Date());
         jLabel3 = new javax.swing.JLabel();
         PDF = new javax.swing.JButton();
-        Filtros = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TablaCaja = new javax.swing.JTable();
         Filtro = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         Total = new javax.swing.JFormattedTextField();
+        ChekFechaCaja = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CAJA");
@@ -130,13 +130,6 @@ public class Caja extends javax.swing.JFrame {
             }
         });
 
-        Filtros.setText("Filtrar");
-        Filtros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FiltrosActionPerformed(evt);
-            }
-        });
-
         try{
             TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha,concepto,monto FROM caja",cols)
             );
@@ -163,51 +156,52 @@ public class Caja extends javax.swing.JFrame {
         Total.setEditable(false);
         Total.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
+        ChekFechaCaja.setText("Filtrar por Fecha");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(Total, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5))
+                            .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PDF, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(ChekFechaCaja)
+                        .addGap(55, 55, 55)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(FechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Filtros, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel3))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(Total, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabel5))
-                                .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PDF, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(FechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(FechaFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Filtros))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(ChekFechaCaja))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,34 +246,6 @@ public class Caja extends javax.swing.JFrame {
     private void FechaInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FechaInicioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FechaInicioActionPerformed
-
-    private void FiltrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrosActionPerformed
-        filtros = new ArrayList<RowFilter<Object,Object>>();
-        ArrayList<RowFilter<Object,Object>> fechStart = new ArrayList<RowFilter<Object,Object>>();
-        ArrayList<RowFilter<Object,Object>> fechEnd = new ArrayList<RowFilter<Object,Object>>();
-        Date ini = null,fin=null;
-        trsfiltro = new TableRowSorter(TablaCaja.getModel());
-      try {
-           ini=format.parse(FechaInicio.getText());
-           fin=format.parse(FechaFinal.getText());
-       } catch (ParseException ex) {
-           JOptionPane.showMessageDialog(null,ex.toString());
-           Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        RowFilter fechAF= RowFilter.dateFilter(ComparisonType.AFTER,ini);
-        RowFilter fechEQ= RowFilter.dateFilter(ComparisonType.EQUAL,ini);
-        fechStart.add(fechAF);
-        fechStart.add(fechEQ);
-        fechAF= RowFilter.dateFilter(ComparisonType.AFTER,fin);
-        fechEQ= RowFilter.dateFilter(ComparisonType.EQUAL,fin);
-        fechEnd.add(fechEQ);
-        fechEnd.add(fechAF);
-        filtros.add(RowFilter.orFilter(fechStart));
-        filtros.add(RowFilter.orFilter(fechEnd));
-       trsfiltro.setRowFilter(RowFilter.andFilter(filtros));
-       TablaCaja.setRowSorter(trsfiltro);
-       getTot();
-    }//GEN-LAST:event_FiltrosActionPerformed
 
     private void PDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PDFActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
@@ -344,10 +310,10 @@ public class Caja extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox ChekFechaCaja;
     public javax.swing.JFormattedTextField FechaFinal;
     public javax.swing.JFormattedTextField FechaInicio;
     public javax.swing.JTextField Filtro;
-    public javax.swing.JButton Filtros;
     public javax.swing.JButton PDF;
     public javax.swing.JTable TablaCaja;
     public javax.swing.JFormattedTextField Total;

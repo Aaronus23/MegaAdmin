@@ -8,6 +8,7 @@ package Inicio;
 import Conector.Conector;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -46,11 +47,12 @@ public class BuscarCliente extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        BuscarNombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        BuscarID = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        FiltroGeneral = new javax.swing.JTextArea();
+        EliminarClienteB = new javax.swing.JButton();
+        InsertarClienteB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("CLIENTES");
@@ -60,15 +62,31 @@ public class BuscarCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Buscar por Nombre:");
-
-        jLabel2.setText("Buscar por ID:");
+        jLabel1.setText("Filtro General:");
 
         try{
             jTable1.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
         } catch(SQLException ex){
         }
         jScrollPane1.setViewportView(jTable1);
+
+        FiltroGeneral.setColumns(20);
+        FiltroGeneral.setRows(5);
+        jScrollPane2.setViewportView(FiltroGeneral);
+
+        EliminarClienteB.setText("Eliminar Cliente");
+        EliminarClienteB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarClienteBActionPerformed(evt);
+            }
+        });
+
+        InsertarClienteB.setText("Inertar Cliente");
+        InsertarClienteB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InsertarClienteBActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,32 +95,35 @@ public class BuscarCliente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BuscarNombre)
-                            .addComponent(BuscarID, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))
-                        .addGap(0, 380, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(EliminarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(InsertarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(BuscarNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(BuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(88, 88, 88))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(EliminarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(InsertarClienteB, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -113,6 +134,18 @@ public class BuscarCliente extends javax.swing.JFrame {
             BuscarCliente.instancia=null;
     }//GEN-LAST:event_formWindowClosed
 
+    private void InsertarClienteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InsertarClienteBActionPerformed
+        IngresarCliente.getInstance().setVisible(true);
+    }//GEN-LAST:event_InsertarClienteBActionPerformed
+
+    private void EliminarClienteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteBActionPerformed
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
+            if(opc==JOptionPane.YES_OPTION){
+                JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
+                dispose();
+                instancia=null;
+            }
+    }//GEN-LAST:event_EliminarClienteBActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -149,11 +182,12 @@ public class BuscarCliente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTextField BuscarID;
-    public javax.swing.JTextField BuscarNombre;
+    private javax.swing.JButton EliminarClienteB;
+    private javax.swing.JTextArea FiltroGeneral;
+    private javax.swing.JButton InsertarClienteB;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     public javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
