@@ -23,6 +23,11 @@ public class NuevoPedido extends javax.swing.JFrame {
     /**
      * Creates new form NuevoPedido
      */
+    public void setear(String nombre, String folio) {
+        Nombre.setText(nombre);
+        IdCliente.setText(folio);
+    }
+    
     public NuevoPedido() {
         initComponents();
     }

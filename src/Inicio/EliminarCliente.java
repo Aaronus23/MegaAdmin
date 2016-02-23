@@ -29,8 +29,8 @@ public class EliminarCliente extends javax.swing.JFrame {
     public void setear(String folio,String nombre,String telefono,String  telefono2,String direccion){
         FiltrarIdEli.setText(folio);
         NombreEli.setText(nombre);
-        TelefonoEli.setText(telefono);
-        Telefono2Eli.setText(telefono2);
+        Telefono2Eli.setText(telefono);
+        TelefonoEli.setText(telefono2);
         DireccionEli.setText(direccion);
     }
 
@@ -201,6 +201,7 @@ public class EliminarCliente extends javax.swing.JFrame {
 
     private void FiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarActionPerformed
         FiltroClientes.getInstance().setVisible(true);
+        FiltroClientes.clase_procedencia="EliminarCliente";
     }//GEN-LAST:event_FiltrarActionPerformed
 
     private void EliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteActionPerformed
