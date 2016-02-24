@@ -42,7 +42,7 @@ public class NotaVenta {
         return instancia;
     }
     
-    void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
+    public void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
         int a,b;
         this.nombre=nombre;
         this.Telefono=telefono;
@@ -239,6 +239,7 @@ public class NotaVenta {
         document.add(table);
         
         document.close();
+        abrirArchivo();
     }
     
     void abrirArchivo(){

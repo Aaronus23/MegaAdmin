@@ -5,6 +5,8 @@
  */
 package Inicio;
 import Conector.Conector;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import notas.NotaVenta;
 
 /**
  *
@@ -266,6 +269,18 @@ public class Abono extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            int op=JOptionPane.showConfirmDialog(null,"¿Desea generar Nota de Venta?");
+            if(opc==JOptionPane.YES_OPTION) {
+                NotaVenta.getInstance().setear(NumeroOrden.getText(),NombreEjemplo.getText(),"",ConceptoA.getText(),AbonoPedido.getText(),TotalPedido.getText());
+                try {
+                    NotaVenta.getInstance().createPdf("Caja.pdf");
+                } catch (DocumentException ex) {
+                    Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             }
         }
     }//GEN-LAST:event_AbonarActionPerformed
