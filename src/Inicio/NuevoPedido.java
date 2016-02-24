@@ -24,6 +24,7 @@ import notas.NotaVenta;
  */
 public class NuevoPedido extends javax.swing.JFrame {
     private static NuevoPedido instancia=null;
+    String telefono;
     public static NuevoPedido getInstance(){
         if(instancia==null){
             instancia=new NuevoPedido();
@@ -144,6 +145,11 @@ public class NuevoPedido extends javax.swing.JFrame {
         });
 
         VerificarNuevo.setText("Verificar Pedido");
+        VerificarNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerificarNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,6 +219,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         .addComponent(Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
+                        .addGap(0, 0, 0)
                         .addComponent(IdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -220,9 +227,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         .addComponent(Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel6))
+                            .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -272,7 +277,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         if(selectedValue=="Nota de Venta") {
                             NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText(),AbonoTotal.getText(),Total.getText());
                             try {
-                                NotaVenta.getInstance().createPdf("NotaCaja.pdf");
+                                NotaVenta.getInstance().createPdf("NotaVenta.pdf");
                             } catch (DocumentException ex) {
                                 JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,6 +320,24 @@ public class NuevoPedido extends javax.swing.JFrame {
         FiltroClientes.getInstance().setVisible(true);
         FiltroClientes.clase_procedencia="NuevoPedido";
     }//GEN-LAST:event_BuscarClienteNActionPerformed
+
+    private void VerificarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarNuevoActionPerformed
+        try {
+            Conector.getInstance().Buscar("SELECT cliente.nombre,cliente.telefono FROM cliente JOIN pedido WHERE pedido.idCliente=cliente.id AND cliente.id="+IdCliente.getText());
+            if(Conector.getInstance().cdr.next()){
+                Nombre.setText(Conector.getInstance().cdr.getString("nombre"));
+                telefono=Conector.getInstance().cdr.getString("telefono");
+            }
+            else{
+               JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
+                Nombre.setText("");
+                telefono="";
+            }
+        } catch (SQLException ex) {
+            
+            Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_VerificarNuevoActionPerformed
 
     /**
      * @param args the command line arguments

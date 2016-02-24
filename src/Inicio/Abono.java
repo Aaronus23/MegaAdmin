@@ -22,6 +22,7 @@ import notas.NotaVenta;
  */
 public class Abono extends javax.swing.JFrame {
     private static Abono instancia=null;
+    String telefono;
     public static Abono getInstance(){
         if(instancia==null){
             instancia=new Abono();
@@ -312,6 +313,7 @@ public class Abono extends javax.swing.JFrame {
                 AbonoPedido.setText(Conector.getInstance().cdr.getString("abonoTotal"));
                 TotalPedido.setText(Conector.getInstance().cdr.getString("total"));
                 ConceptoA.setText(Conector.getInstance().cdr.getString("concepto"));
+                telefono=Conector.getInstance().cdr.getString("concepto");
             }
             else
                 JOptionPane.showMessageDialog(null, "Pedido no existe",null,JOptionPane.WARNING_MESSAGE);
