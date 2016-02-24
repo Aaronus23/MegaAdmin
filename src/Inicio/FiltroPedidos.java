@@ -5,7 +5,10 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.Vector;
 
 /**
  *
@@ -15,7 +18,7 @@ public class FiltroPedidos extends javax.swing.JFrame {
     
      public String nombre,fecha,total,abono,folio;
     int row;
-    
+    Vector<String> cols;
     public static String clase_procedencia;
     
     private static FiltroPedidos instancia=null;
@@ -29,6 +32,14 @@ public class FiltroPedidos extends javax.swing.JFrame {
      * Creates new form FiltroPedidos
      */
     public FiltroPedidos() {
+        cols=new Vector<String>();
+        cols.add("Folio");
+        cols.add("Fecha");
+        cols.add("Nombre");
+        cols.add("Concepto");
+        cols.add("Abonado");
+        cols.add("Total");
+        cols.add("Telefono");
         initComponents();
     }
 
@@ -64,24 +75,10 @@ public class FiltroPedidos extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Gulim", 1, 14)); // NOI18N
         jLabel1.setText("PEDIDOS");
 
-        TablaFilPedidos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID Pedido", "Nombre", "Fecha", "TOTAL ($)", "Abono Total ($)"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        try{
+            TablaFilPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
+        } catch(SQLException ex){
+        }
         TablaFilPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         TablaFilPedidos.setEnabled(false);
         TablaFilPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -192,10 +189,8 @@ public class FiltroPedidos extends javax.swing.JFrame {
        
         if(evt.getClickCount()==2) {
         row = TablaFilPedidos.rowAtPoint(evt.getPoint());
-        System.out.println("hola");
         folio=TablaFilPedidos.getValueAt(row,0).toString();
         nombre=TablaFilPedidos.getValueAt(row,1).toString();
-         System.out.println(nombre);
         fecha=TablaFilPedidos.getValueAt(row,2).toString();
         total=TablaFilPedidos.getValueAt(row,3).toString();
         abono=TablaFilPedidos.getValueAt(row,4).toString();

@@ -64,6 +64,7 @@ public class Caja extends javax.swing.JFrame {
 
     private void getTot(){
         BigDecimal cant;
+        tot=BigDecimal.ZERO;
         for(int i=0; i<TablaCaja.getRowCount(); i++){
             cant = new BigDecimal(TablaCaja.getValueAt(i, 2)+"");
             tot=tot.add(cant);
