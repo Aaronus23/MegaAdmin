@@ -58,6 +58,10 @@ public class Caja extends javax.swing.JFrame {
         getTot();
         trsfiltro = new TableRowSorter(TablaCaja.getModel());
     }
+    public void filtro() {
+        trsfiltro.setRowFilter(RowFilter.regexFilter(Filtro.getText()));
+    }
+
     private void getTot(){
         BigDecimal cant;
         for(int i=0; i<TablaCaja.getRowCount(); i++){

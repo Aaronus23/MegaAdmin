@@ -68,7 +68,7 @@ public class VerPedido extends javax.swing.JFrame {
         NotaVenta = new javax.swing.JButton();
         TotalV = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        OrdenProduccion = new javax.swing.JButton();
         AbonarPedidoV = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -122,7 +122,7 @@ public class VerPedido extends javax.swing.JFrame {
             }
         });
 
-        NotaVenta.setText("Generar Nota de Venta");
+        NotaVenta.setText("Hacer Nota de Venta");
         NotaVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 NotaVentaActionPerformed(evt);
@@ -134,10 +134,10 @@ public class VerPedido extends javax.swing.JFrame {
 
         jLabel4.setText("TOTAL ($):");
 
-        jButton1.setText("Hacer Orden de Producción");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        OrdenProduccion.setText("Hacer Orden de Producción");
+        OrdenProduccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                OrdenProduccionActionPerformed(evt);
             }
         });
 
@@ -181,12 +181,12 @@ public class VerPedido extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(InsertarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(EliminarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(NotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
                                     .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(NotaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -215,8 +215,8 @@ public class VerPedido extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(InsertarPedidoV)
-                                    .addComponent(jButton1))
+                                    .addComponent(OrdenProduccion)
+                                    .addComponent(InsertarPedidoV))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(EliminarPedidoV)
@@ -271,7 +271,7 @@ public class VerPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NotaVentaActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void OrdenProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenProduccionActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             int fil=TablaPedidos.getSelectedRow();
@@ -289,10 +289,10 @@ public class VerPedido extends javax.swing.JFrame {
                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_OrdenProduccionActionPerformed
 
     private void AbonarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarPedidoVActionPerformed
-        String cantS=JOptionPane.showInputDialog(null,"Cantidad a abonar","Abono");
+        int cantS=Integer.parseInt(JOptionPane.showInputDialog(null,"Cantidad a abonar","Abono"));
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","Abono",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -367,9 +367,9 @@ public class VerPedido extends javax.swing.JFrame {
     public javax.swing.JTextField Filtro;
     private javax.swing.JButton InsertarPedidoV;
     private javax.swing.JButton NotaVenta;
+    private javax.swing.JButton OrdenProduccion;
     public javax.swing.JTable TablaPedidos;
     private javax.swing.JFormattedTextField TotalV;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
