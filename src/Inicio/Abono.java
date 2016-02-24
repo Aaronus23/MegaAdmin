@@ -245,23 +245,39 @@ public class Abono extends javax.swing.JFrame {
 
     
     private void AbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarActionPerformed
-        if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())){
-            JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
+        if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())||"".equals(NombreEjemplo.getText())){
+            JOptionPane.showMessageDialog(null, "Verifique el cliente primero",null,JOptionPane.WARNING_MESSAGE);
         }
         else{           
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 int id=Integer.parseInt(NumeroOrden.getText());
                 BigDecimal monto= new BigDecimal(Cantidad.getText());  
+                BigDecimal total= new BigDecimal(TotalPedido.getText());
+                BigDecimal abo= new BigDecimal(AbonoPedido.getText());  
+                if(abo.add(monto).compareTo(total)==1){
+                   JOptionPane.showMessageDialog(null,"Estas abonando mas del total",null,JOptionPane.WARNING_MESSAGE);
+                   return;
+                }
+                AbonoPedido.setText(abo.add(monto).toString());
                 String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
                 String query;
-                query = "INSERT INTO abono VALUES(NULL,'"+fecha+"','"+id+"',"+monto.toString()+")";
+                query = "INSERT INTO abono VALUES(NULL,'"+fecha+"',"+id+","+monto.toString()+")";
                 try {
                     Conector.getInstance().Insertar(query);
+                    Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+monto+" WHERE id="+id);
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+                     int op=JOptionPane.showConfirmDialog(null,"¿Desea generar Nota de Venta?");
+                     if(op==JOptionPane.YES_OPTION) {
+                        NotaVenta.getInstance().setear(NumeroOrden.getText(),NombreEjemplo.getText(),"",ConceptoA.getText(),AbonoPedido.getText(),TotalPedido.getText());
+                        try {
+                            NotaVenta.getInstance().createPdf("NotaVenta.pdf");
+                        } catch (DocumentException | IOException ex) {
+                            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     dispose();
                     Abono.instancia=null;
-
                 } catch (SQLException ex) {
                     if(ex.getSQLState().startsWith("23"))
                         JOptionPane.showMessageDialog(null,"Pedido Inexistente!",null,JOptionPane.WARNING_MESSAGE);
@@ -269,18 +285,6 @@ public class Abono extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            int op=JOptionPane.showConfirmDialog(null,"¿Desea generar Nota de Venta?");
-            if(opc==JOptionPane.YES_OPTION) {
-                NotaVenta.getInstance().setear(NumeroOrden.getText(),NombreEjemplo.getText(),"",ConceptoA.getText(),AbonoPedido.getText(),TotalPedido.getText());
-                try {
-                    NotaVenta.getInstance().createPdf("Caja.pdf");
-                } catch (DocumentException ex) {
-                    Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
             }
         }
     }//GEN-LAST:event_AbonarActionPerformed
@@ -298,6 +302,21 @@ public class Abono extends javax.swing.JFrame {
     private void VerificarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarDatosActionPerformed
         if("".equals(NumeroOrden.getText())){
             JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        try {
+            Conector.getInstance().Buscar("SELECT cliente.nombre, pedido.total,pedido.fecha,pedido.abonoTotal,pedido.concepto,cliente.telefono FROM pedido JOIN cliente WHERE cliente.id=pedido.idCliente AND pedido.id="+NumeroOrden.getText());
+            if(Conector.getInstance().cdr.next()){
+                NombreEjemplo.setText(Conector.getInstance().cdr.getString("nombre"));
+                FechaEjemplo.setText(Conector.getInstance().cdr.getString("fecha"));
+                AbonoPedido.setText(Conector.getInstance().cdr.getString("abonoTotal"));
+                TotalPedido.setText(Conector.getInstance().cdr.getString("total"));
+                ConceptoA.setText(Conector.getInstance().cdr.getString("concepto"));
+            }
+            else
+                JOptionPane.showMessageDialog(null, "Pedido no existe",null,JOptionPane.WARNING_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_VerificarDatosActionPerformed
     /**
