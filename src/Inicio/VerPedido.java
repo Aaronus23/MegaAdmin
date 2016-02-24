@@ -244,13 +244,13 @@ public class VerPedido extends javax.swing.JFrame {
             if(opc==JOptionPane.YES_OPTION){
                 int id=TablaPedidos.getSelectedRow();
                 if(id==-1)
-                    JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+                    JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!",null,JOptionPane.WARNING_MESSAGE);
                 else{
                     try {
                         Conector.getInstance().Insertar("DELETE FROM pedido WHERE id="+TablaPedidos.getValueAt(id,0));
                         JOptionPane.showMessageDialog(null, "¡Datos del pedido eliminados exitosamente!");
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+                        JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!",null,JOptionPane.WARNING_MESSAGE);
                         Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -298,7 +298,7 @@ public class VerPedido extends javax.swing.JFrame {
             String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int id= TablaPedidos.getSelectedRow();
             if(id==-1)
-                JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!");
+                JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!",null,JOptionPane.WARNING_MESSAGE);
             else{
                 try {
                     Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");

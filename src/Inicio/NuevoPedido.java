@@ -47,6 +47,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                 Id.setText("1");
         }
          catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -128,7 +128,7 @@ public class Otros extends javax.swing.JFrame {
                     dispose();
                     Otros.instancia=null;
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!");
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
