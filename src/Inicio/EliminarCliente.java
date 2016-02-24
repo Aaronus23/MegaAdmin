@@ -241,6 +241,22 @@ public class EliminarCliente extends javax.swing.JFrame {
         if("".equals(FiltrarIdEli.getText())){
             JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.WARNING_MESSAGE);
         }
+        else{
+            try {
+                Conector.getInstance().Buscar("SELECT * FROM cliente WHERE id="+FiltrarIdEli.getText());
+                if(Conector.getInstance().cdr.next()){
+                    NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
+                    DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
+                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
+                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_VerificarClienteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

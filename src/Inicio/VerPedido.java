@@ -6,6 +6,8 @@
 package Inicio;
 
 import Conector.Conector;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +15,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import notas.NotaProduccion;
 
 /**
  *
@@ -271,7 +274,20 @@ public class VerPedido extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+            int fil=TablaPedidos.getSelectedRow();
+            if(fil==-1){
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                return;
+            } 
+            NotaProduccion.getInstance();
+            NotaProduccion.getInstance().setear(TablaPedidos.getValueAt(fil,0)+"",TablaPedidos.getValueAt(fil,2)+"","",TablaPedidos.getValueAt(fil,3)+"");
+            try {
+                NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
+               JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+            } catch (DocumentException | IOException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
