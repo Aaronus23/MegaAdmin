@@ -248,7 +248,7 @@ public class Abono extends javax.swing.JFrame {
         if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())){
             JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         }
-        else{
+        else{           
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 int id=Integer.parseInt(NumeroOrden.getText());

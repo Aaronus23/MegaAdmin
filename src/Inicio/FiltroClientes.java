@@ -173,10 +173,30 @@ public class FiltroClientes extends javax.swing.JFrame {
         dispose();
         FiltroClientes.instancia=null;
         id=TablaClientesEliminar.getValueAt(row,0).toString();
-        nombre=TablaClientesEliminar.getValueAt(row,1).toString();
-        telefono=TablaClientesEliminar.getValueAt(row,2).toString();
-        telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+        if(TablaClientesEliminar.getValueAt(row,1)==null) {
+            nombre=" ";
+        }
+        else {
+            nombre=TablaClientesEliminar.getValueAt(row,1).toString();
+        }        
+        if(TablaClientesEliminar.getValueAt(row,2)==null) {
+            telefono=" ";
+        }
+        else {
+            telefono=TablaClientesEliminar.getValueAt(row,2).toString();
+        }
+        if(TablaClientesEliminar.getValueAt(row,3)==null) {
+            telefono2=" ";
+        }
+        else {
+            telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+        }
+        if(TablaClientesEliminar.getValueAt(row,4)==null) {
+            direccion=" ";
+        }
+        else {
         direccion=TablaClientesEliminar.getValueAt(row,4).toString();
+        }
         if(clase_procedencia=="EliminarCliente")
             EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
         if(clase_procedencia=="NuevoPedido")
@@ -186,11 +206,31 @@ public class FiltroClientes extends javax.swing.JFrame {
     private void TablaClientesEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesEliminarMouseClicked
         row = TablaClientesEliminar.rowAtPoint(evt.getPoint());
         if(evt.getClickCount()==2) {
-        id=TablaClientesEliminar.getValueAt(row,0).toString();
-        nombre=TablaClientesEliminar.getValueAt(row,1).toString();
-        telefono=TablaClientesEliminar.getValueAt(row,2).toString();
-        telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+           id=TablaClientesEliminar.getValueAt(row,0).toString();
+        if(TablaClientesEliminar.getValueAt(row,1)==null) {
+            nombre=" ";
+        }
+        else {
+            nombre=TablaClientesEliminar.getValueAt(row,1).toString();
+        }        
+        if(TablaClientesEliminar.getValueAt(row,2)==null) {
+            telefono=" ";
+        }
+        else {
+            telefono=TablaClientesEliminar.getValueAt(row,2).toString();
+        }
+        if(TablaClientesEliminar.getValueAt(row,3)==null) {
+            telefono2=" ";
+        }
+        else {
+            telefono2=TablaClientesEliminar.getValueAt(row,3).toString();
+        }
+        if(TablaClientesEliminar.getValueAt(row,4)==null) {
+            direccion=" ";
+        }
+        else {
         direccion=TablaClientesEliminar.getValueAt(row,4).toString();
+        }
         if(clase_procedencia=="EliminarCliente")
             EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
         if(clase_procedencia=="NuevoPedido")

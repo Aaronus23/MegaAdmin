@@ -83,7 +83,6 @@ public class FiltroPedidos extends javax.swing.JFrame {
             }
         });
         TablaFilPedidos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        TablaFilPedidos.setEnabled(false);
         TablaFilPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TablaFilPedidosMouseClicked(evt);
@@ -177,11 +176,30 @@ public class FiltroPedidos extends javax.swing.JFrame {
         dispose();
         FiltroPedidos.instancia=null;
         folio=TablaFilPedidos.getValueAt(row,0).toString();
-        nombre=TablaFilPedidos.getValueAt(row,1).toString();
-         System.out.println(nombre);
-        fecha=TablaFilPedidos.getValueAt(row,2).toString();
-        total=TablaFilPedidos.getValueAt(row,3).toString();
-        abono=TablaFilPedidos.getValueAt(row,4).toString();
+        if(TablaFilPedidos.getValueAt(row,1)==null) {
+            nombre=" ";
+        }
+        else {
+            nombre=TablaFilPedidos.getValueAt(row,1).toString();
+        }
+        if(TablaFilPedidos.getValueAt(row,2)==null) {
+            fecha=" ";
+        }
+        else {
+            fecha=TablaFilPedidos.getValueAt(row,2).toString();
+        }
+        if (TablaFilPedidos.getValueAt(row,3)==null) {
+            total=" ";
+        }
+        else {
+            total=TablaFilPedidos.getValueAt(row,3).toString();
+        }
+        if (TablaFilPedidos.getValueAt(row,4)==null) {
+            abono=" ";
+        }
+        else {
+            abono=TablaFilPedidos.getValueAt(row,4).toString();
+        }
         if("CancelarPedido".equals(clase_procedencia))
             CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
         if("Abonar".equals(clase_procedencia))
@@ -194,11 +212,30 @@ public class FiltroPedidos extends javax.swing.JFrame {
         row = TablaFilPedidos.rowAtPoint(evt.getPoint());
         System.out.println("hola");
         folio=TablaFilPedidos.getValueAt(row,0).toString();
-        nombre=TablaFilPedidos.getValueAt(row,1).toString();
-         System.out.println(nombre);
-        fecha=TablaFilPedidos.getValueAt(row,2).toString();
-        total=TablaFilPedidos.getValueAt(row,3).toString();
-        abono=TablaFilPedidos.getValueAt(row,4).toString();
+        if (TablaFilPedidos.getValueAt(row,1)==null) {
+            nombre=" ";
+        }
+        else {
+            nombre=TablaFilPedidos.getValueAt(row,1).toString();
+        }
+        if (TablaFilPedidos.getValueAt(row,2)==null) {
+            fecha=null;
+        }
+        else {
+            fecha=TablaFilPedidos.getValueAt(row,2).toString();
+        }
+        if (TablaFilPedidos.getValueAt(row,3)==null) {
+            total=" ";
+        }
+        else {
+            total=TablaFilPedidos.getValueAt(row,3).toString();
+        }
+        if (TablaFilPedidos.getValueAt(row,4)==null) {
+            abono=" ";
+        }
+        else{
+            abono=TablaFilPedidos.getValueAt(row,4).toString();
+        }        
         if(clase_procedencia=="CancelarPedido")
             CancelarPedido.getInstance().setear(folio,nombre,fecha,total,abono);
         if(clase_procedencia=="Abonar")

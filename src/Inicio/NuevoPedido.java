@@ -6,6 +6,8 @@
 package Inicio;
 
 import Conector.Conector;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import notas.NotaProduccion;
+import notas.NotaVenta;
 
 /**
  *
@@ -256,17 +260,45 @@ public class NuevoPedido extends javax.swing.JFrame {
                 BigDecimal abo,tot;
                 abo=new BigDecimal(AbonoTotal.getText());
                 tot=new BigDecimal(Total.getText());
-                if(abo.compareTo(tot)==1) JOptionPane.showMessageDialog(null, "¡Abono Mayor que total!");
+                if(abo.compareTo(tot)==1) JOptionPane.showMessageDialog(null, "¡Abono Mayor que total!",null,JOptionPane.WARNING_MESSAGE);
                 else{
                     try {
                         Conector.getInstance().Insertar("INSERT INTO pedido VALUES("+Id.getText()+",'"+fecha+"',"+IdCliente.getText()+",'"+Concepto.getText()+"',"+Total.getText()+","+AbonoTotal.getText()+")");
                         Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+Id.getText()+","+AbonoTotal.getText()+")");
                         JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
+                        Object[] possibleValues = { " ","Nota de Venta", "Orden de producción" };
+                        Object selectedValue = JOptionPane.showInputDialog(null,"¿Desea generar alguna nota? ", "Generar Nota",  JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
+                        
+                        if(selectedValue=="Nota de Venta") {
+                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText(),AbonoTotal.getText(),Total.getText());
+                            try {
+                                NotaVenta.getInstance().createPdf("NotaCaja.pdf");
+                            } catch (DocumentException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else if(selectedValue=="Orden de producción") {
+                            NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText());
+                            try {
+                                NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
+                            } catch (DocumentException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+            
                         dispose();
                         NuevoPedido.instancia=null;
                     } catch (SQLException ex) {
                         if(ex.getSQLState().startsWith("23"))
-                            JOptionPane.showMessageDialog(null,"Cliente Inexistente");
+                            JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
                         Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                      }
                 }
