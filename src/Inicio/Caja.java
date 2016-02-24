@@ -37,7 +37,7 @@ public class Caja extends javax.swing.JFrame {
    TableRowSorter trsfiltro;
    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
    dat dato;
-   NotaCaja nota;
+   BigDecimal tot=BigDecimal.ZERO;
    private static Caja instancia=null;
     public static Caja getInstance(){
         if(instancia==null){
@@ -63,7 +63,6 @@ public class Caja extends javax.swing.JFrame {
     }
 
     private void getTot(){
-        BigDecimal tot=BigDecimal.ZERO;
         BigDecimal cant;
         for(int i=0; i<TablaCaja.getRowCount(); i++){
             cant = new BigDecimal(TablaCaja.getValueAt(i, 2)+"");
@@ -277,10 +276,10 @@ public class Caja extends javax.swing.JFrame {
                     datos.add(dato);
             }
             try {
-                new NotaCaja().createPdf(RESULT,datos);
+                NotaCaja.getInstance().createPdf(RESULT,datos);
                 JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al generar PDF");
+                JOptionPane.showMessageDialog(null, "Error al generar PDF",null, JOptionPane.WARNING_MESSAGE);
                 Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
             }
             dispose();

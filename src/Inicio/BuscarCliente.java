@@ -155,6 +155,7 @@ public class BuscarCliente extends javax.swing.JFrame {
                     dispose();
                     instancia=null;
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al eliminar datos",null, JOptionPane.WARNING_MESSAGE);
                     Logger.getLogger(BuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
