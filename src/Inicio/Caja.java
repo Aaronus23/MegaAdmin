@@ -137,8 +137,7 @@ public class Caja extends javax.swing.JFrame {
         });
 
         try{
-            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha,concepto,monto FROM caja",cols)
-            );
+            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",cols));
         } catch(SQLException ex){
         }
         TablaCaja.getTableHeader().setReorderingAllowed(false);

@@ -8,6 +8,7 @@ package Inicio;
 import Conector.Conector;
 import com.itextpdf.text.DocumentException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -120,7 +121,12 @@ public class Reporte extends javax.swing.JFrame {
             String fechFin=Conector.getInstance().DbDateFormat(FinalReporte.getText());
             boolean empty=true;
             try {
-                Conector.getInstance().Buscar("SELECT fecha,concepto,monto FROM caja WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "'");
+                Conector.getInstance().Buscar(
+                        "SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono "
+                        + "WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "' "
+                        + "UNION "
+                        + "SELECT fecha,concepto,monto FROM caja "
+                        + "WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "' ORDER BY fecha");
                 while( Conector.getInstance().cdr.next() ) {
                     dat dato = new dat();
                     dato.fecha=(Date) Conector.getInstance().cdr.getDate("fecha");

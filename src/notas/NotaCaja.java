@@ -18,6 +18,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCellEvent;
 import java.awt.Desktop;
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -80,7 +81,7 @@ public class NotaCaja{
 	throws DocumentException, IOException {
         
         dat contenedor=new dat();
-        int total=0;
+        BigDecimal total=BigDecimal.ZERO;
         
         Date curDate = new Date();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -175,9 +176,7 @@ public class NotaCaja{
             cell.setColspan(3);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
-            
-            int n=Integer.parseInt(contenedor.monto);
-            total+=n;
+            total=total.add(new BigDecimal(contenedor.monto));
             cell=new PdfPCell(new Phrase(" "+contenedor.monto));
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
