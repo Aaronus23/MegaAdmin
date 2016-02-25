@@ -115,7 +115,6 @@ public class Abono extends javax.swing.JFrame {
         FechaEjemplo.setEditable(false);
         FechaEjemplo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
 
-        TotalPedido.setEditable(false);
         TotalPedido.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
 
         AbonoPedido.setEditable(false);
