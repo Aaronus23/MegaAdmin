@@ -252,8 +252,8 @@ public class EliminarCliente extends javax.swing.JFrame {
                 if(Conector.getInstance().cdr.next()){
                     NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
                     DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
-                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
-                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
+                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono"));
+                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono2"));
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.ERROR_MESSAGE);

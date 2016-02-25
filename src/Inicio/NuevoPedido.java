@@ -145,7 +145,7 @@ public class NuevoPedido extends javax.swing.JFrame {
             }
         });
 
-        VerificarNuevo.setText("Verificar Pedido");
+        VerificarNuevo.setText("Verificar Clave cliente");
         VerificarNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 VerificarNuevoActionPerformed(evt);
@@ -272,9 +272,9 @@ public class NuevoPedido extends javax.swing.JFrame {
                         Conector.getInstance().Insertar("INSERT INTO pedido VALUES("+Id.getText()+",'"+fecha+"',"+IdCliente.getText()+",'"+Concepto.getText()+"',"+Total.getText()+","+AbonoTotal.getText()+")");
                         Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+Id.getText()+","+AbonoTotal.getText()+")");
                         JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
+                        Object[] possibleValues = { " ","Nota de Venta", "Orden de producción","Ambas" };
                         Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",Caja.getInstance().cols));
                         VerPedido.getInstance().TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",VerPedido.getInstance().cols));
-                        Object[] possibleValues = { " ","Nota de Venta", "Orden de producción" };
                         Object selectedValue = JOptionPane.showInputDialog(null,"¿Desea generar alguna nota? ", "Generar Nota",  JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
                         
                         if(selectedValue=="Nota de Venta") {
@@ -291,6 +291,28 @@ public class NuevoPedido extends javax.swing.JFrame {
                         }
                         else if(selectedValue=="Orden de producción") {
                             NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText());
+                            try {
+                                NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
+                            } catch (DocumentException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        else if(selectedValue=="Ambas") {
+                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText(),AbonoTotal.getText(),Total.getText());
+                            try {
+                                NotaVenta.getInstance().createPdf("NotaVenta.pdf");
+                            } catch (DocumentException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
+                                Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText());
                             try {
                                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
                             } catch (DocumentException ex) {
@@ -337,7 +359,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                 telefono="";
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "¡Dejaste el campo en blanco!",null,JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_VerificarNuevoActionPerformed

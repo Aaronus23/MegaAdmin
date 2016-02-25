@@ -203,7 +203,7 @@ public class Caja extends javax.swing.JFrame {
 
         try{
             TablaCaja.setAutoCreateRowSorter(true);
-            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",cols));
+            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha DESC",cols));
         } catch(SQLException ex){
         }
         TablaCaja.getTableHeader().setReorderingAllowed(false);
@@ -215,10 +215,10 @@ public class Caja extends javax.swing.JFrame {
             }
         });
         Filtro.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 FiltroInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
         Filtro.addActionListener(new java.awt.event.ActionListener() {
@@ -227,14 +227,14 @@ public class Caja extends javax.swing.JFrame {
             }
         });
         Filtro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                FiltroKeyTyped(evt);
+            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 FiltroKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 FiltroKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                FiltroKeyTyped(evt);
             }
         });
 
