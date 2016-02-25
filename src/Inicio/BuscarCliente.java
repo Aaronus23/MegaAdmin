@@ -9,11 +9,13 @@ import Conector.Conector;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -57,7 +59,7 @@ public class BuscarCliente extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        TablaDatos = new javax.swing.JTable();
         EliminarClienteB = new javax.swing.JButton();
         InsertarClienteB = new javax.swing.JButton();
         FiltroGeneral = new javax.swing.JTextField();
@@ -73,10 +75,11 @@ public class BuscarCliente extends javax.swing.JFrame {
         jLabel1.setText("Filtro General:");
 
         try{
-            jTable1.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
+            TablaDatos.setAutoCreateRowSorter(true);
+            TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
         } catch(SQLException ex){
         }
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(TablaDatos);
 
         EliminarClienteB.setText("Eliminar Cliente");
         EliminarClienteB.addActionListener(new java.awt.event.ActionListener() {
@@ -92,6 +95,11 @@ public class BuscarCliente extends javax.swing.JFrame {
             }
         });
 
+        FiltroGeneral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FiltroGeneralActionPerformed(evt);
+            }
+        });
         FiltroGeneral.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 FiltroGeneralKeyTyped(evt);
@@ -150,7 +158,7 @@ public class BuscarCliente extends javax.swing.JFrame {
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 try {
-                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().jTable1.getValueAt(BuscarCliente.getInstance().jTable1.getSelectedRow(),0));
+                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().TablaDatos.getValueAt(BuscarCliente.getInstance().TablaDatos.getSelectedRow(),0));
                     JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
                     dispose();
                     instancia=null;
@@ -170,9 +178,13 @@ public class BuscarCliente extends javax.swing.JFrame {
                 filtro();
             }
         });
-        trsfiltro = new TableRowSorter(jTable1.getModel());
-        jTable1.setRowSorter(trsfiltro);
+        trsfiltro = new TableRowSorter(TablaDatos.getModel());
+        TablaDatos.setRowSorter(trsfiltro);
     }//GEN-LAST:event_FiltroGeneralKeyTyped
+
+    private void FiltroGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroGeneralActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_FiltroGeneralActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -212,8 +224,8 @@ public class BuscarCliente extends javax.swing.JFrame {
     private javax.swing.JButton EliminarClienteB;
     private javax.swing.JTextField FiltroGeneral;
     private javax.swing.JButton InsertarClienteB;
+    public javax.swing.JTable TablaDatos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
