@@ -267,6 +267,7 @@ public class Abono extends javax.swing.JFrame {
                     Conector.getInstance().Insertar(query);
                     Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+monto+" WHERE id="+id);
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+                    Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",Caja.getInstance().cols));
                      int op=JOptionPane.showConfirmDialog(null,"¿Desea generar Nota de Venta?");
                      if(op==JOptionPane.YES_OPTION) {
                         NotaVenta.getInstance().setear(NumeroOrden.getText(),NombreEjemplo.getText(),"",ConceptoA.getText(),AbonoPedido.getText(),TotalPedido.getText());

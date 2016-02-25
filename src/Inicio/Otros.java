@@ -125,6 +125,7 @@ public class Otros extends javax.swing.JFrame {
                 try {
                     Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Monto ingresado exitosamente!");
+                    Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",Caja.getInstance().cols));
                     dispose();
                     Otros.instancia=null;
                 } catch (SQLException ex) {

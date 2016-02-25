@@ -153,6 +153,7 @@ public class IngresarCliente extends javax.swing.JFrame {
                 try {
                     Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Cliente registrado con éxito!");
+                    BuscarCliente.getInstance().TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",BuscarCliente.getInstance().cols));
                 } catch (SQLException ex){ 
                     JOptionPane.showMessageDialog(null, "¡Error al ingresar el cliente!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IngresarCliente.class.getName()).log(Level.SEVERE, null, ex);

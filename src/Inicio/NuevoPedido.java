@@ -108,6 +108,8 @@ public class NuevoPedido extends javax.swing.JFrame {
 
         jLabel6.setText("Abono Total ($):");
 
+        Nombre.setEditable(false);
+
         jScrollPane1.setViewportView(Concepto);
 
         jLabel7.setText("Fecha:");
@@ -270,6 +272,8 @@ public class NuevoPedido extends javax.swing.JFrame {
                         Conector.getInstance().Insertar("INSERT INTO pedido VALUES("+Id.getText()+",'"+fecha+"',"+IdCliente.getText()+",'"+Concepto.getText()+"',"+Total.getText()+","+AbonoTotal.getText()+")");
                         Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+Id.getText()+","+AbonoTotal.getText()+")");
                         JOptionPane.showMessageDialog(null, "¡Pedido realizado con éxito!");
+                        Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",Caja.getInstance().cols));
+                        VerPedido.getInstance().TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",VerPedido.getInstance().cols));
                         Object[] possibleValues = { " ","Nota de Venta", "Orden de producción" };
                         Object selectedValue = JOptionPane.showInputDialog(null,"¿Desea generar alguna nota? ", "Generar Nota",  JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
                         

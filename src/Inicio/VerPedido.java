@@ -125,10 +125,10 @@ public class VerPedido extends javax.swing.JFrame {
         f1=new ArrayList();
         f2=new ArrayList();
         finalf=new ArrayList();
-        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,0));
-        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,0));
-        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,0));
-        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,0));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,1));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,1));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,1));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,1));
         finalf.add(RowFilter.orFilter(f1));
         finalf.add(RowFilter.orFilter(f2));
         finalf.add(RowFilter.regexFilter("(?i)"+Filtro.getText()));
@@ -358,6 +358,7 @@ private void getTot(){
                     try {
                         Conector.getInstance().Insertar("DELETE FROM pedido WHERE id="+TablaPedidos.getValueAt(id,0));
                         JOptionPane.showMessageDialog(null, "¡Datos del pedido eliminados exitosamente!");
+                        VerPedido.getInstance().TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",VerPedido.getInstance().cols));
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!",null,JOptionPane.WARNING_MESSAGE);
                         Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
@@ -423,6 +424,7 @@ private void getTot(){
                     Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");
                     Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+                    VerPedido.getInstance().TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",VerPedido.getInstance().cols));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);

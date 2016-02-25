@@ -23,7 +23,7 @@ import javax.swing.table.TableRowSorter;
  * @author Jesús Ernesto
  */
 public class BuscarCliente extends javax.swing.JFrame {
-    Vector <String> cols;
+    public Vector <String> cols;
     private static BuscarCliente instancia=null;
     public static BuscarCliente getInstance(){
         if(instancia==null){
@@ -165,7 +165,7 @@ public class BuscarCliente extends javax.swing.JFrame {
                 try {
                     Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().TablaDatos.getValueAt(BuscarCliente.getInstance().TablaDatos.getSelectedRow(),0));
                     JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
-                    dispose();
+                    BuscarCliente.getInstance().TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",BuscarCliente.getInstance().cols));
                     instancia=null;
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al eliminar datos",null, JOptionPane.ERROR_MESSAGE);

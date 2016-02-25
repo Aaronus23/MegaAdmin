@@ -106,10 +106,10 @@ public class FiltroPedidos extends javax.swing.JFrame {
         f1=new ArrayList();
         f2=new ArrayList();
         finalf=new ArrayList();
-        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,0));
-        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,0));
-        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,0));
-        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,0));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,1));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,1));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,1));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,1));
         finalf.add(RowFilter.orFilter(f1));
         finalf.add(RowFilter.orFilter(f2));
         finalf.add(RowFilter.regexFilter("(?i)"+Filtro.getText()));

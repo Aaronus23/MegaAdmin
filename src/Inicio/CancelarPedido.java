@@ -247,6 +247,7 @@ public class CancelarPedido extends javax.swing.JFrame {
                 try {
                     Conector.getInstance().Insertar("DELETE FROM pedido WHERE id="+NumeroPedido.getText());
                     JOptionPane.showMessageDialog(null, "¡Pedido cancelado exitosamente!");
+                    Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha",Caja.getInstance().cols));
                     dispose();
                     CancelarPedido.instancia=null;
                 } catch (SQLException ex) {
