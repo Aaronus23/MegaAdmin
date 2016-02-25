@@ -73,34 +73,39 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
 
         jLabel2.setText("FOLIO");
 
-        TxtFolio.setEnabled(false);
+        TxtFolio.setEditable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setText("Nombre");
 
-        TxtNombre.setEnabled(false);
+        TxtNombre.setEditable(false);
 
         jLabel4.setText("Fecha");
 
-        TxtFecha.setEnabled(false);
+        TxtFecha.setEditable(false);
+        TxtFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtFechaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Teléfono");
 
-        TxtTelefono.setEnabled(false);
+        TxtTelefono.setEditable(false);
 
         jLabel6.setText("Concepto");
 
-        TxtConcepto.setEnabled(false);
+        TxtConcepto.setEditable(false);
         jScrollPane1.setViewportView(TxtConcepto);
 
         jLabel7.setText("Abono ($)");
 
-        TxtAbono.setEnabled(false);
+        TxtAbono.setEditable(false);
 
         jLabel8.setText("Total ($)");
 
-        TxtTotal.setEnabled(false);
+        TxtTotal.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -223,6 +228,10 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
         dispose();
         MostrarDatosPedidos.instancia=null;
     }//GEN-LAST:event_BtnAceptarActionPerformed
+
+    private void TxtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtFechaActionPerformed
 
     /**
      * @param args the command line arguments

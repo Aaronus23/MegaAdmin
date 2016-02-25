@@ -192,10 +192,10 @@ public class BuscarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_FiltroGeneralActionPerformed
 
     private void TablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDatosMouseClicked
-        MostrarDatosCliente.getInstance().setVisible(true);
         String folio, nombre, numero, numero2, direccion;
         int row = TablaDatos.rowAtPoint(evt.getPoint());
         if(evt.getClickCount()==2) {
+            MostrarDatosCliente.getInstance().setVisible(true);
             folio=TablaDatos.getValueAt(row,0).toString();
             nombre=TablaDatos.getValueAt(row,1).toString();
             numero=TablaDatos.getValueAt(row,2).toString();

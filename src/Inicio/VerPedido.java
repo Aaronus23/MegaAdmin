@@ -351,18 +351,18 @@ private void getTot(){
     }//GEN-LAST:event_ChekFechaStateChanged
 
     private void TablaPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPedidosMouseClicked
-       MostrarDatosPedidos.getInstance().setVisible(true);
         String folio, fecha, nombre, concepto, abono, total, numero;
         int row = TablaPedidos.rowAtPoint(evt.getPoint());
         if(evt.getClickCount()==2) {
+            MostrarDatosPedidos.getInstance().setVisible(true);
             folio=TablaPedidos.getValueAt(row,0).toString();
-            fecha=TablaPedidos.getValueAt(row,1).toString();
+            fecha=new SimpleDateFormat("dd/MM/yyyy").format(TablaPedidos.getValueAt(row,1));
             nombre=TablaPedidos.getValueAt(row,2).toString();
             concepto=TablaPedidos.getValueAt(row,3).toString();
             abono=TablaPedidos.getValueAt(row,4).toString();
             total=TablaPedidos.getValueAt(row,5).toString();
             numero=TablaPedidos.getValueAt(row,6).toString();     
-            MostrarDatosPedidos.getInstance().setear(folio,"",nombre,concepto,abono,total,numero);
+            MostrarDatosPedidos.getInstance().setear(folio,fecha,nombre,concepto,abono,total,numero);
         }
     }//GEN-LAST:event_TablaPedidosMouseClicked
 

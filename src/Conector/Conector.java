@@ -1,6 +1,7 @@
 package Conector;
 
-import java.sql.ResultSet;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -10,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author aaronus23
  */
-public final class Conector {
+public final class Conector{
      public java.sql.Connection conexion;
      public java.sql.Statement sentencia;
      public java.sql.ResultSet cdr;
@@ -34,18 +35,18 @@ public final class Conector {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
-    public Conector() throws ClassNotFoundException,java.sql.SQLException,InstantiationException,IllegalAccessException {
+    public Conector() throws ClassNotFoundException,java.sql.SQLException,InstantiationException,IllegalAccessException{
         String controlador="com.mysql.jdbc.Driver";
         Class.forName(controlador).newInstance();
         conectar();
         sentencia=conexion.createStatement();
     }
-    public void conectar() throws java.sql.SQLException {
-        String URL_bd = "jdbc:mysql://localhost:3306/megagraphicsDB";
-        String usuario="root";
-        String password="";
+    public void conectar() throws java.sql.SQLException{
         //Conectar con la BD
-        conexion=java.sql.DriverManager.getConnection(URL_bd,usuario,password);
+       String URL="jdbc:mysql://localhost:3306/megagraphicsDB";
+       String usuario="root";
+       String password="";
+        conexion=java.sql.DriverManager.getConnection(URL,usuario,password);
     }
     public void cerrarConexion() throws java.sql.SQLException {
         if(cdr!=null) cdr.close();

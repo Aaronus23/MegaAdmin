@@ -68,25 +68,25 @@ public class MostrarDatosCliente extends javax.swing.JFrame {
 
         jLabel2.setText("Id Cliente");
 
-        TxtIdCliente.setEnabled(false);
+        TxtIdCliente.setEditable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel3.setText("Nombre");
 
-        TxtNombre.setEnabled(false);
+        TxtNombre.setEditable(false);
 
         jLabel4.setText("Dirección");
 
-        TxtDireccion.setEnabled(false);
+        TxtDireccion.setEditable(false);
 
         jLabel5.setText("Teléfono");
 
-        TxtTelefono.setEnabled(false);
+        TxtTelefono.setEditable(false);
 
         jLabel6.setText("Teléfono 2");
 
-        TxtTelefono2.setEnabled(false);
+        TxtTelefono2.setEditable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
