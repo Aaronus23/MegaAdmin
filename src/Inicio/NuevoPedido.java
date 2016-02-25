@@ -34,9 +34,10 @@ public class NuevoPedido extends javax.swing.JFrame {
     /**
      * Creates new form NuevoPedido
      */
-    public void setear(String nombre, String folio) {
+    public void setear(String nombre, String folio,String telefono) {
         Nombre.setText(nombre);
         IdCliente.setText(folio);
+        this.telefono=telefono;
     }
     
     public NuevoPedido() {
@@ -275,7 +276,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         Object selectedValue = JOptionPane.showInputDialog(null,"¿Desea generar alguna nota? ", "Generar Nota",  JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
                         
                         if(selectedValue=="Nota de Venta") {
-                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText(),AbonoTotal.getText(),Total.getText());
+                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText(),AbonoTotal.getText(),Total.getText());
                             try {
                                 NotaVenta.getInstance().createPdf("NotaVenta.pdf");
                             } catch (DocumentException ex) {
@@ -287,7 +288,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                             }
                         }
                         else if(selectedValue=="Orden de producción") {
-                            NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText());
+                            NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText());
                             try {
                                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
                             } catch (DocumentException ex) {

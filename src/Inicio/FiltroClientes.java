@@ -200,7 +200,7 @@ public class FiltroClientes extends javax.swing.JFrame {
         if(clase_procedencia=="EliminarCliente")
             EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
         if(clase_procedencia=="NuevoPedido")
-            NuevoPedido.getInstance().setear(nombre, id);
+            NuevoPedido.getInstance().setear(nombre, id,telefono);
     }//GEN-LAST:event_AceptarEliminarActionPerformed
 
     private void TablaClientesEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaClientesEliminarMouseClicked
@@ -234,7 +234,7 @@ public class FiltroClientes extends javax.swing.JFrame {
         if(clase_procedencia=="EliminarCliente")
             EliminarCliente.getInstance().setear(id,nombre,telefono,telefono2,direccion);
         if(clase_procedencia=="NuevoPedido")
-            NuevoPedido.getInstance().setear(nombre, id);
+            NuevoPedido.getInstance().setear(nombre, id,telefono);
         dispose();
         FiltroClientes.instancia=null;
         }
