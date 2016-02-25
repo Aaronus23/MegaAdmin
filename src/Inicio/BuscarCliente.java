@@ -147,7 +147,7 @@ public class BuscarCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_InsertarClienteBActionPerformed
 
     private void EliminarClienteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteBActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 try {
                     Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().jTable1.getValueAt(BuscarCliente.getInstance().jTable1.getSelectedRow(),0));
@@ -155,7 +155,7 @@ public class BuscarCliente extends javax.swing.JFrame {
                     dispose();
                     instancia=null;
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar datos",null, JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al eliminar datos",null, JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(BuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

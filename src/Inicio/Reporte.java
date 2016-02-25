@@ -113,7 +113,7 @@ public class Reporte extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void GenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GenerarActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar el reporte?","Generar Reporte",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar el reporte?","Generar Reporte",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             ArrayList<dat> datos=new ArrayList<>();
             String fechIni=Conector.getInstance().DbDateFormat(InicioReporte.getText());
@@ -130,7 +130,7 @@ public class Reporte extends javax.swing.JFrame {
                     empty = false;
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.",null,JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se pudo conectar a la base de datos.",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(empty) JOptionPane.showMessageDialog(null, "¡Ninguna transaccion en esa fecha!");
@@ -139,7 +139,7 @@ public class Reporte extends javax.swing.JFrame {
                     NotaCaja.getInstance().createPdf("Caja.pdf",datos);
                     JOptionPane.showMessageDialog(null, "¡Reporte generado con éxito!");
                 } catch (DocumentException | IOException ex) {
-                    JOptionPane.showMessageDialog(null, "No se pudo generar el reporte",null,JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "No se pudo generar el reporte",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

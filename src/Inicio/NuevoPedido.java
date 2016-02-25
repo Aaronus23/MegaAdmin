@@ -24,6 +24,7 @@ import notas.NotaVenta;
  */
 public class NuevoPedido extends javax.swing.JFrame {
     private static NuevoPedido instancia=null;
+    String telefono;
     public static NuevoPedido getInstance(){
         if(instancia==null){
             instancia=new NuevoPedido();
@@ -33,9 +34,10 @@ public class NuevoPedido extends javax.swing.JFrame {
     /**
      * Creates new form NuevoPedido
      */
-    public void setear(String nombre, String folio) {
+    public void setear(String nombre, String folio,String telefono) {
         Nombre.setText(nombre);
         IdCliente.setText(folio);
+        this.telefono=telefono;
     }
     
     public NuevoPedido() {
@@ -51,7 +53,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                 Id.setText("1");
         }
          catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -274,26 +276,26 @@ public class NuevoPedido extends javax.swing.JFrame {
                         Object selectedValue = JOptionPane.showInputDialog(null,"¿Desea generar alguna nota? ", "Generar Nota",  JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
                         
                         if(selectedValue=="Nota de Venta") {
-                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText(),AbonoTotal.getText(),Total.getText());
+                            NotaVenta.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText(),AbonoTotal.getText(),Total.getText());
                             try {
-                                NotaVenta.getInstance().createPdf("NotaCaja.pdf");
+                                NotaVenta.getInstance().createPdf("NotaVenta.pdf");
                             } catch (DocumentException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                         else if(selectedValue=="Orden de producción") {
-                            NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),"",Concepto.getText());
+                            NotaProduccion.getInstance().setear(Id.getText(),Nombre.getText(),telefono,Concepto.getText());
                             try {
                                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
                             } catch (DocumentException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
@@ -302,7 +304,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         NuevoPedido.instancia=null;
                     } catch (SQLException ex) {
                         if(ex.getSQLState().startsWith("23"))
-                            JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                      }
                 }
@@ -321,7 +323,21 @@ public class NuevoPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_BuscarClienteNActionPerformed
 
     private void VerificarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarNuevoActionPerformed
-        // TODO add your handling code here:
+        try {
+            Conector.getInstance().Buscar("SELECT cliente.nombre,cliente.telefono FROM cliente JOIN pedido WHERE pedido.idCliente=cliente.id AND cliente.id="+IdCliente.getText());
+            if(Conector.getInstance().cdr.next()){
+                Nombre.setText(Conector.getInstance().cdr.getString("nombre"));
+                telefono=Conector.getInstance().cdr.getString("telefono");
+            }
+            else{
+               JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.ERROR_MESSAGE);
+                Nombre.setText("");
+                telefono="";
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_VerificarNuevoActionPerformed
 
     /**

@@ -220,7 +220,7 @@ public class EliminarCliente extends javax.swing.JFrame {
 
     private void EliminarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteActionPerformed
         if("".equals(FiltrarIdEli.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
@@ -231,7 +231,7 @@ public class EliminarCliente extends javax.swing.JFrame {
                     dispose();
                     instancia=null;
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Cliente Inexistente!");
+                    JOptionPane.showMessageDialog(null, "¡Cliente Inexistente!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -245,7 +245,7 @@ public class EliminarCliente extends javax.swing.JFrame {
 
     private void VerificarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarClienteActionPerformed
         if("".equals(FiltrarIdEli.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             try {
@@ -257,9 +257,10 @@ public class EliminarCliente extends javax.swing.JFrame {
                     Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
                 }
                 else{
-                    JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.ERROR_MESSAGE);
                 }
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

@@ -275,11 +275,11 @@ private void getTot(){
     }//GEN-LAST:event_InsertarPedidoVActionPerformed
 
     private void HacerNotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HacerNotaVentaActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             int fil=TablaPedidos.getSelectedRow();
             if(fil==-1){
-                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!",null,JOptionPane.WARNING_MESSAGE);
                 return;
             } 
             NotaVenta.getInstance();
@@ -288,27 +288,27 @@ private void getTot(){
                 NotaVenta.getInstance().createPdf("NotaVenta.pdf");
             JOptionPane.showMessageDialog(null, "¡Nota de venta generado con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                JOptionPane.showMessageDialog(null, "¡Error al generar Nota de Venta!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_HacerNotaVentaActionPerformed
 
     private void OrdenProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenProduccionActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar Orden de Producción?","Generar Nota",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             int fil=TablaPedidos.getSelectedRow();
             if(fil==-1){
-                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!",null,JOptionPane.WARNING_MESSAGE);
                 return;
             } 
             NotaProduccion.getInstance();
             NotaProduccion.getInstance().setear(TablaPedidos.getValueAt(fil,0)+"",TablaPedidos.getValueAt(fil,2)+"",TablaPedidos.getValueAt(fil,6)+"",TablaPedidos.getValueAt(fil,3)+"");
             try {
                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
-               JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+               JOptionPane.showMessageDialog(null, "¡Orden de producción generada con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                JOptionPane.showMessageDialog(null, "¡Error al generar orden de producción!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -328,6 +328,7 @@ private void getTot(){
                     Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
