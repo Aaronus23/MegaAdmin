@@ -79,6 +79,11 @@ public class BuscarCliente extends javax.swing.JFrame {
             TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
         } catch(SQLException ex){
         }
+        TablaDatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaDatosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(TablaDatos);
 
         EliminarClienteB.setText("Eliminar Cliente");
@@ -185,6 +190,20 @@ public class BuscarCliente extends javax.swing.JFrame {
     private void FiltroGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltroGeneralActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_FiltroGeneralActionPerformed
+
+    private void TablaDatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaDatosMouseClicked
+        String folio, nombre, numero, numero2, direccion;
+        int row = TablaDatos.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount()==2) {
+            MostrarDatosCliente.getInstance().setVisible(true);
+            folio=TablaDatos.getValueAt(row,0).toString();
+            nombre=TablaDatos.getValueAt(row,1).toString();
+            numero=TablaDatos.getValueAt(row,2).toString();
+            numero2=TablaDatos.getValueAt(row,3).toString();
+            direccion=TablaDatos.getValueAt(row,4).toString();     
+            MostrarDatosCliente.getInstance().setear(folio,nombre,direccion,numero,numero2);
+        }
+    }//GEN-LAST:event_TablaDatosMouseClicked
     /**
      * @param args the command line arguments
      */

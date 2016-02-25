@@ -29,6 +29,7 @@ import notas.NotaVenta;
  *
  * @author Jesús Ernesto
  */
+
 public class VerPedido extends javax.swing.JFrame {
     private static VerPedido instancia=null;
     Vector<String> cols;
@@ -41,9 +42,6 @@ public class VerPedido extends javax.swing.JFrame {
         }
         return instancia;
     }
-    /**
-     * Creates new form VerPedido
-     */
     public VerPedido() {   
         cols=new Vector<>();
         cols.add("Folio");
@@ -176,6 +174,11 @@ public class VerPedido extends javax.swing.JFrame {
             TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
         } catch(SQLException ex){
         }
+        TablaPedidos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TablaPedidosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(TablaPedidos);
 
         jLabel1.setText("Fecha Inicial:");
@@ -284,7 +287,7 @@ public class VerPedido extends javax.swing.JFrame {
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(HacerNotaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
+                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -435,6 +438,23 @@ private void getTot(){
     private void FiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyPressed
         checarFiltros();
     }//GEN-LAST:event_FiltroKeyPressed
+
+    private void TablaPedidosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaPedidosMouseClicked
+        String folio, fecha, nombre, concepto, abono, total, numero;
+        int row = TablaPedidos.rowAtPoint(evt.getPoint());
+        if(evt.getClickCount()==2) {
+            MostrarDatosPedidos.getInstance().setVisible(true);
+            folio=TablaPedidos.getValueAt(row,0).toString();
+            fecha=new SimpleDateFormat("dd/MM/yyyy").format(TablaPedidos.getValueAt(row,1));
+            nombre=TablaPedidos.getValueAt(row,2).toString();
+            concepto=TablaPedidos.getValueAt(row,3).toString();
+            abono=TablaPedidos.getValueAt(row,4).toString();
+            total=TablaPedidos.getValueAt(row,5).toString();
+            numero=TablaPedidos.getValueAt(row,6).toString();     
+            MostrarDatosPedidos.getInstance().setear(folio,fecha,nombre,concepto,abono,total,numero);
+        }
+    }//GEN-LAST:event_TablaPedidosMouseClicked
+
 
     /**
      * @param args the command line arguments
