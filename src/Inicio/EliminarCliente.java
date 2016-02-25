@@ -225,9 +225,15 @@ public class EliminarCliente extends javax.swing.JFrame {
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
-                dispose();
-                instancia=null;
+                try {
+                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+FiltrarIdEli.getText());
+                    JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
+                    dispose();
+                    instancia=null;
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Cliente Inexistente!");
+                    Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_EliminarClienteActionPerformed
@@ -241,21 +247,26 @@ public class EliminarCliente extends javax.swing.JFrame {
         if("".equals(FiltrarIdEli.getText())){
             JOptionPane.showMessageDialog(null, "Coloca por favor la clave del cliente",null,JOptionPane.WARNING_MESSAGE);
         }
+        else{
+            try {
+                Conector.getInstance().Buscar("SELECT * FROM cliente WHERE id="+FiltrarIdEli.getText());
+                if(Conector.getInstance().cdr.next()){
+                    NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
+                    DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
+                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
+                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_VerificarClienteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            Conector.getInstance().Buscar("SELECT * FROM cliente WHERE id="+FiltrarIdEli.getText());
-            if(Conector.getInstance().cdr.next()) {
-                    NombreEli.setText(Conector.getInstance().cdr.getString("nombre"));
-                    TelefonoEli.setText(Conector.getInstance().cdr.getString("telefono"));
-                    Telefono2Eli.setText(Conector.getInstance().cdr.getString("telefono2"));
-                    DireccionEli.setText(Conector.getInstance().cdr.getString("direccion"));
-            }            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
-            Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

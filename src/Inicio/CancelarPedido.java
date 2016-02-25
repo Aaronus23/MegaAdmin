@@ -5,6 +5,10 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -240,9 +244,15 @@ public class CancelarPedido extends javax.swing.JFrame {
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente cancelar este pedido?","Cancelar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
-                JOptionPane.showMessageDialog(null, "¡Pedio cancelado exitosamente!");
-                dispose();
-                CancelarPedido.instancia=null;
+                try {
+                    Conector.getInstance().Insertar("DELETE FROM pedido WHERE id="+NumeroPedido.getText());
+                    JOptionPane.showMessageDialog(null, "¡Pedido cancelado exitosamente!");
+                    dispose();
+                    CancelarPedido.instancia=null;
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Pedido Inexistente!");
+                    Logger.getLogger(CancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_CancelarActionPerformed
@@ -250,7 +260,25 @@ public class CancelarPedido extends javax.swing.JFrame {
     private void VerificarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarDatosActionPerformed
         if("".equals(NumeroPedido.getText())){
             JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.WARNING_MESSAGE);
+            return;
         }
+        try {
+        Conector.getInstance().Buscar("SELECT cliente.nombre, pedido.total,pedido.abonoTotal,pedido.concepto,pedido.fecha FROM pedido JOIN cliente WHERE cliente.id=pedido.idCliente AND pedido.id="+NumeroPedido.getText());
+        if(Conector.getInstance().cdr.next()){
+            NombreEjemplo.setText(Conector.getInstance().cdr.getString("nombre"));
+            TotalPedido.setText(Conector.getInstance().cdr.getString("total"));
+            AbonoPedido.setText(Conector.getInstance().cdr.getString("abonoTotal"));
+            ConceptoCancelar.setText(Conector.getInstance().cdr.getString("concepto"));
+            FechaEjemplo.setText(Conector.getInstance().cdr.getString("fecha"));
+            
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
     }//GEN-LAST:event_VerificarDatosActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

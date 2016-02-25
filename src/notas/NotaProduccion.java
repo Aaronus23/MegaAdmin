@@ -31,7 +31,7 @@ public class NotaProduccion {
         String Concepto="";
         String folio="";
         
-    void setear(String folio,String nombre, String telefono, String Concepto) {
+    public void setear(String folio,String nombre, String telefono, String Concepto) {
         this.nombre=nombre;
         this.Telefono=telefono;
         this.Concepto=Concepto;
@@ -191,6 +191,7 @@ public class NotaProduccion {
         document.add(table);
         
         document.close();
+        abrirArchivo();
     }    
     
     void abrirArchivo(){

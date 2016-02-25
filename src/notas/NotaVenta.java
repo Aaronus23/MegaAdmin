@@ -20,6 +20,7 @@ import java.util.Date;
 import com.itextpdf.text.pdf.PdfPCellEvent;
 import java.awt.Desktop;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +32,7 @@ public class NotaVenta {
         String Concepto="";
         String Abono;
         String total;
-        int restante;
+        BigDecimal restante;
         String folio;
         
     private static NotaVenta instancia=null;
@@ -42,16 +43,16 @@ public class NotaVenta {
         return instancia;
     }
     
-    void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
-        int a,b;
+    public void setear(String folio, String nombre, String telefono, String Concepto,String abono, String total) {
+        BigDecimal a,b;
         this.nombre=nombre;
         this.Telefono=telefono;
         this.Concepto=Concepto;
         this.Abono=abono;
         this.total=total;
-        a=Integer.parseInt(Abono);
-        b=Integer.parseInt(total);
-        this.restante=(b-a);
+        a=new BigDecimal(Abono);
+        b=new BigDecimal(total);
+        this.restante=b.subtract(a);
         this.folio=folio;
     }
     
@@ -228,17 +229,18 @@ public class NotaVenta {
         cell.setBorder(0);
         table.addCell(cell);
         
-        cell=new PdfPCell(new Phrase("     Total"+total));
+        cell=new PdfPCell(new Phrase("     Total"));
         cell.setBorder(0);
         table.addCell(cell);
         
-        cell=new PdfPCell(new Phrase(" "));
+        cell=new PdfPCell(new Phrase(" "+total));
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
         table.addCell(cell);
         
         document.add(table);
         
         document.close();
+        abrirArchivo();
     }
     
     void abrirArchivo(){

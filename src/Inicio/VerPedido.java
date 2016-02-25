@@ -6,6 +6,9 @@
 package Inicio;
 
 import Conector.Conector;
+import com.itextpdf.text.DocumentException;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,6 +16,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import notas.NotaProduccion;
+import notas.NotaVenta;
 
 /**
  *
@@ -21,6 +26,7 @@ import javax.swing.*;
 public class VerPedido extends javax.swing.JFrame {
     private static VerPedido instancia=null;
     Vector<String> cols;
+    BigDecimal tot;
     public static VerPedido getInstance(){
         if(instancia==null){
             instancia=new VerPedido();
@@ -38,8 +44,10 @@ public class VerPedido extends javax.swing.JFrame {
         cols.add("Concepto");
         cols.add("Abonado");
         cols.add("Total");
+        cols.add("Telefono");
         Conector.getInstance();
         initComponents();
+        getTot();
     }
 
     /**
@@ -62,7 +70,7 @@ public class VerPedido extends javax.swing.JFrame {
         ChekFecha = new javax.swing.JCheckBox();
         InsertarPedidoV = new javax.swing.JButton();
         EliminarPedidoV = new javax.swing.JButton();
-        NotaVenta = new javax.swing.JButton();
+        HacerNotaVenta = new javax.swing.JButton();
         TotalV = new javax.swing.JFormattedTextField();
         jLabel4 = new javax.swing.JLabel();
         OrdenProduccion = new javax.swing.JButton();
@@ -77,7 +85,7 @@ public class VerPedido extends javax.swing.JFrame {
         });
 
         try{
-            TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
+            TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
         } catch(SQLException ex){
         }
         jScrollPane2.setViewportView(TablaPedidos);
@@ -119,10 +127,10 @@ public class VerPedido extends javax.swing.JFrame {
             }
         });
 
-        NotaVenta.setText("Hacer Nota de Venta");
-        NotaVenta.addActionListener(new java.awt.event.ActionListener() {
+        HacerNotaVenta.setText("Hacer Nota de Venta");
+        HacerNotaVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NotaVentaActionPerformed(evt);
+                HacerNotaVentaActionPerformed(evt);
             }
         });
 
@@ -178,12 +186,12 @@ public class VerPedido extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(InsertarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(EliminarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
+                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, Short.MAX_VALUE)))
                                     .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(NotaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
+                                    .addComponent(HacerNotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -217,7 +225,7 @@ public class VerPedido extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(EliminarPedidoV)
-                                    .addComponent(NotaVenta))
+                                    .addComponent(HacerNotaVenta))
                                 .addGap(5, 5, 5)
                                 .addComponent(AbonarPedidoV))
                             .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,7 +243,15 @@ public class VerPedido extends javax.swing.JFrame {
         dispose();
         VerPedido.instancia=null;
     }//GEN-LAST:event_formWindowClosed
-
+private void getTot(){
+        BigDecimal cant;
+        tot=BigDecimal.ZERO;
+        for(int i=0; i<TablaPedidos.getRowCount(); i++){
+            cant = new BigDecimal(TablaPedidos.getValueAt(i, 5)+"").subtract(new BigDecimal(TablaPedidos.getValueAt(i, 4)+""));
+            tot=tot.add(cant);
+         }
+        TotalV.setText(tot.toString());
+    }
     private void EliminarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarPedidoVActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este pedido?","Eliminar",JOptionPane.WARNING_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
@@ -258,20 +274,43 @@ public class VerPedido extends javax.swing.JFrame {
         NuevoPedido.getInstance().setVisible(true);
     }//GEN-LAST:event_InsertarPedidoVActionPerformed
 
-    private void NotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NotaVentaActionPerformed
+    private void HacerNotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HacerNotaVentaActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
-    
+            int fil=TablaPedidos.getSelectedRow();
+            if(fil==-1){
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                return;
+            } 
+            NotaVenta.getInstance();
+            NotaVenta.getInstance().setear(TablaPedidos.getValueAt(fil,0)+"",TablaPedidos.getValueAt(fil,2)+"",TablaPedidos.getValueAt(fil,6)+"",TablaPedidos.getValueAt(fil,3)+"",TablaPedidos.getValueAt(fil,4)+"",TablaPedidos.getValueAt(fil,5)+"");
+            try {
+                NotaVenta.getInstance().createPdf("NotaVenta.pdf");
             JOptionPane.showMessageDialog(null, "¡Nota de venta generado con éxito!");
-            dispose();
-            VerPedido.instancia=null;
+            } catch (DocumentException | IOException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_NotaVentaActionPerformed
+    }//GEN-LAST:event_HacerNotaVentaActionPerformed
 
     private void OrdenProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenProduccionActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+            int fil=TablaPedidos.getSelectedRow();
+            if(fil==-1){
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                return;
+            } 
+            NotaProduccion.getInstance();
+            NotaProduccion.getInstance().setear(TablaPedidos.getValueAt(fil,0)+"",TablaPedidos.getValueAt(fil,2)+"",TablaPedidos.getValueAt(fil,6)+"",TablaPedidos.getValueAt(fil,3)+"");
+            try {
+                NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
+               JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+            } catch (DocumentException | IOException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_OrdenProduccionActionPerformed
 
@@ -349,8 +388,8 @@ public class VerPedido extends javax.swing.JFrame {
     public javax.swing.JFormattedTextField FechaFinal;
     public javax.swing.JFormattedTextField FechaInicial;
     public javax.swing.JTextField Filtro;
+    private javax.swing.JButton HacerNotaVenta;
     private javax.swing.JButton InsertarPedidoV;
-    private javax.swing.JButton NotaVenta;
     private javax.swing.JButton OrdenProduccion;
     public javax.swing.JTable TablaPedidos;
     private javax.swing.JFormattedTextField TotalV;
