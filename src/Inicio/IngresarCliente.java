@@ -143,7 +143,7 @@ public class IngresarCliente extends javax.swing.JFrame {
 
     private void AceptarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AceptarNuevoActionPerformed
         if("".equals(NombreNuevo.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor el nombre del cliente",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor el nombre del cliente",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             String nom,tel,tel2;
@@ -154,7 +154,7 @@ public class IngresarCliente extends javax.swing.JFrame {
                     Conector.getInstance().Insertar(query);
                     JOptionPane.showMessageDialog(null, "¡Cliente registrado con éxito!");
                 } catch (SQLException ex){ 
-                    JOptionPane.showMessageDialog(null, "¡Error al ingresar el cliente!",null,JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "¡Error al ingresar el cliente!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(IngresarCliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
                     

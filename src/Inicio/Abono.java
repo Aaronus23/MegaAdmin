@@ -247,10 +247,10 @@ public class Abono extends javax.swing.JFrame {
     
     private void AbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarActionPerformed
         if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())||"".equals(NombreEjemplo.getText())){
-            JOptionPane.showMessageDialog(null, "Verifique el cliente primero",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Verifique el cliente primero",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{           
-            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.WARNING_MESSAGE);
+            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 int id=Integer.parseInt(NumeroOrden.getText());
                 BigDecimal monto= new BigDecimal(Cantidad.getText());  
@@ -274,6 +274,7 @@ public class Abono extends javax.swing.JFrame {
                         try {
                             NotaVenta.getInstance().createPdf("NotaVenta.pdf");
                         } catch (DocumentException | IOException ex) {
+                            JOptionPane.showMessageDialog(null, "¡Error al generar Nota de Venta!",null,JOptionPane.ERROR_MESSAGE);
                             Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
@@ -283,7 +284,7 @@ public class Abono extends javax.swing.JFrame {
                     if(ex.getSQLState().startsWith("23"))
                         JOptionPane.showMessageDialog(null,"Pedido Inexistente!",null,JOptionPane.WARNING_MESSAGE);
                     else
-                        JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -302,7 +303,7 @@ public class Abono extends javax.swing.JFrame {
 
     private void VerificarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarDatosActionPerformed
         if("".equals(NumeroOrden.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -316,8 +317,9 @@ public class Abono extends javax.swing.JFrame {
                 telefono=Conector.getInstance().cdr.getString("concepto");
             }
             else
-                JOptionPane.showMessageDialog(null, "Pedido no existe",null,JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Pedido no existe",null,JOptionPane.ERROR_MESSAGE);
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(Abono.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_VerificarDatosActionPerformed

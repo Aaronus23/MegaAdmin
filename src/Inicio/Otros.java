@@ -113,7 +113,7 @@ public class Otros extends javax.swing.JFrame {
         if("".equals(CantidadOtros.getText())||"".equals(DescripcionOtros.getText()))
             JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         else{
-            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar esa cantidad a la caja?","Abonar",JOptionPane.WARNING_MESSAGE);
+            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar esa cantidad a la caja?","Abonar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 String concepto = DescripcionOtros.getText();
                 BigDecimal monto= new BigDecimal(CantidadOtros.getText());  
@@ -128,7 +128,7 @@ public class Otros extends javax.swing.JFrame {
                     dispose();
                     Otros.instancia=null;
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

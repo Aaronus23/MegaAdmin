@@ -337,7 +337,7 @@ public class Caja extends javax.swing.JFrame {
     }//GEN-LAST:event_FechaInicioActionPerformed
 
     private void PDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PDFActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             datos=new ArrayList<>();
             for(int i=0; i<TablaCaja.getRowCount(); i++){
@@ -351,7 +351,7 @@ public class Caja extends javax.swing.JFrame {
                 NotaCaja.getInstance().createPdf(RESULT,datos);
                 JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al generar PDF",null, JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al generar PDF",null, JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Caja.class.getName()).log(Level.SEVERE, null, ex);
             }
             dispose();

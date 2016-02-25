@@ -239,7 +239,7 @@ public class CancelarPedido extends javax.swing.JFrame {
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
         
         if("".equals(NumeroPedido.getText())){
-            JOptionPane.showMessageDialog(null,"Coloca por favor el número de pedido",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Coloca por favor el número de pedido",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{
             int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente cancelar este pedido?","Cancelar",JOptionPane.WARNING_MESSAGE);
@@ -250,7 +250,7 @@ public class CancelarPedido extends javax.swing.JFrame {
                     dispose();
                     CancelarPedido.instancia=null;
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Pedido Inexistente!");
+                    JOptionPane.showMessageDialog(null, "¡Pedido Inexistente!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(CancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -259,7 +259,7 @@ public class CancelarPedido extends javax.swing.JFrame {
 
     private void VerificarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarDatosActionPerformed
         if("".equals(NumeroPedido.getText())){
-            JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Coloca por favor el número de folio",null,JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         try {
@@ -276,6 +276,7 @@ public class CancelarPedido extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Este cliente no existe!",null,JOptionPane.WARNING_MESSAGE);
                 }
             } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(EliminarCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         
