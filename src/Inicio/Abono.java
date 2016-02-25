@@ -246,10 +246,10 @@ public class Abono extends javax.swing.JFrame {
     
     private void AbonarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarActionPerformed
         if("".equals(NumeroOrden.getText())||"".equals(Cantidad.getText())||"".equals(NombreEjemplo.getText())){
-            JOptionPane.showMessageDialog(null, "Verifique el cliente primero",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Verifique el cliente primero",null,JOptionPane.INFORMATION_MESSAGE);
         }
         else{           
-            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.WARNING_MESSAGE);
+            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar?","Abonar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 int id=Integer.parseInt(NumeroOrden.getText());
                 BigDecimal monto= new BigDecimal(Cantidad.getText());  

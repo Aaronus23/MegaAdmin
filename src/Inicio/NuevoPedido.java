@@ -144,6 +144,11 @@ public class NuevoPedido extends javax.swing.JFrame {
         });
 
         VerificarNuevo.setText("Verificar Pedido");
+        VerificarNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerificarNuevoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,6 +218,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         .addComponent(Nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
+                        .addGap(0, 0, 0)
                         .addComponent(IdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -220,9 +226,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         .addComponent(Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel6))
+                            .addComponent(jLabel6)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -315,6 +319,10 @@ public class NuevoPedido extends javax.swing.JFrame {
         FiltroClientes.getInstance().setVisible(true);
         FiltroClientes.clase_procedencia="NuevoPedido";
     }//GEN-LAST:event_BuscarClienteNActionPerformed
+
+    private void VerificarNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerificarNuevoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerificarNuevoActionPerformed
 
     /**
      * @param args the command line arguments
