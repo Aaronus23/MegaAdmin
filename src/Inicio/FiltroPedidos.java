@@ -6,17 +6,26 @@
 package Inicio;
 
 import Conector.Conector;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author Jesús Ernesto
  */
 public class FiltroPedidos extends javax.swing.JFrame {
-    
-     public String nombre,fecha,total,abono,folio;
+    ArrayList f1,f2,finalf;
+    TableRowSorter filtroAnd;
+    public String nombre,fecha,total,abono,folio;
     int row;
     Vector<String> cols;
     public static String clase_procedencia;
@@ -41,8 +50,72 @@ public class FiltroPedidos extends javax.swing.JFrame {
         cols.add("Total");
         cols.add("Telefono");
         initComponents();
+        filtroAnd=new TableRowSorter();
+        Filtro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaInicial.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaFinal.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
     }
-
+    void checarFiltros(){
+        String cadena = Filtro.getText();
+        Filtro.setText(cadena);
+        repaint();
+        FechaInicial.setEditable(ChekFecha.isSelected());
+        FechaFinal.setEditable(ChekFecha.isSelected());
+        if(ChekFecha.isSelected())
+            filtroMixto();
+        else
+            filtroSolo();
+        TablaFilPedidos.setRowSorter(filtroAnd); 
+    }
+    public void filtroSolo() {
+        filtroAnd = new TableRowSorter(TablaFilPedidos.getModel());
+        filtroAnd.setRowFilter(RowFilter.regexFilter("(?i)"+Filtro.getText()));
+    }
+    public void filtroMixto(){
+        filtroAnd = new TableRowSorter(TablaFilPedidos.getModel());
+        String x1=FechaInicial.getText();
+        String x2=FechaFinal.getText();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date fecha1 = new Date();
+        Date fecha2 = new Date();
+        try {
+            fecha1 = format.parse(x1);
+            fecha2 = format.parse(x2);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            }
+        f1=new ArrayList();
+        f2=new ArrayList();
+        finalf=new ArrayList();
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,0));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,0));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,0));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,0));
+        finalf.add(RowFilter.orFilter(f1));
+        finalf.add(RowFilter.orFilter(f2));
+        finalf.add(RowFilter.regexFilter("(?i)"+Filtro.getText()));
+        //finalf.add(RowFilter.regexFilter(Filtro.getText(),1));
+        filtroAnd.setRowFilter(RowFilter.andFilter(finalf));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -107,9 +180,15 @@ public class FiltroPedidos extends javax.swing.JFrame {
 
         jLabel4.setText("Fecha Final:");
 
-        FechaInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat(""))));
+        FechaInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
 
         FechaFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        Filtro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                FiltroKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -228,16 +307,12 @@ public class FiltroPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void ChekFechaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaStateChanged
-        if(ChekFecha.isSelected()==true)
-        {
-            FechaInicial.setEditable(true);
-            FechaFinal.setEditable(true);
-        }
-        else{
-            FechaInicial.setEditable(false);
-            FechaFinal.setEditable(false);
-        }
+        checarFiltros();
     }//GEN-LAST:event_ChekFechaStateChanged
+
+    private void FiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyPressed
+        checarFiltros();
+    }//GEN-LAST:event_FiltroKeyPressed
 
     /**
      * @param args the command line arguments

@@ -113,7 +113,7 @@ public class Retiro extends javax.swing.JFrame {
         if("".equals(CantidadRetirar.getText())||"".equals(DescripcionRetirar.getText()))
             JOptionPane.showMessageDialog(null, "Existen casillas vacias",null,JOptionPane.WARNING_MESSAGE);
         else{
-            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente retirar dinero?","Retirar",JOptionPane.WARNING_MESSAGE);
+            int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente retirar dinero?","Retirar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
                 BigDecimal monto= new BigDecimal(CantidadRetirar.getText());  
                 monto=monto.negate();
@@ -129,7 +129,7 @@ public class Retiro extends javax.swing.JFrame {
                     Retiro.instancia=null;
 
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "¡Ocurrio un error!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(Otros.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }

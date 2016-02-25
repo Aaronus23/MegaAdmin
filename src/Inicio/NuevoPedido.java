@@ -53,7 +53,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                 Id.setText("1");
         }
          catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error al conectar la base de datos",null,JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -107,8 +107,6 @@ public class NuevoPedido extends javax.swing.JFrame {
         jLabel5.setText("TOTAL ($):");
 
         jLabel6.setText("Abono Total ($):");
-
-        Nombre.setEditable(false);
 
         jScrollPane1.setViewportView(Concepto);
 
@@ -280,10 +278,10 @@ public class NuevoPedido extends javax.swing.JFrame {
                             try {
                                 NotaVenta.getInstance().createPdf("NotaVenta.pdf");
                             } catch (DocumentException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar nota de venta",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
@@ -292,10 +290,10 @@ public class NuevoPedido extends javax.swing.JFrame {
                             try {
                                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
                             } catch (DocumentException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null,"Error al generar PDF",null,JOptionPane.WARNING_MESSAGE);
+                                JOptionPane.showMessageDialog(null,"Error al generar orden de producción",null,JOptionPane.ERROR_MESSAGE);
                                 Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
@@ -304,7 +302,7 @@ public class NuevoPedido extends javax.swing.JFrame {
                         NuevoPedido.instancia=null;
                     } catch (SQLException ex) {
                         if(ex.getSQLState().startsWith("23"))
-                            JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.ERROR_MESSAGE);
                         Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
                      }
                 }
@@ -330,12 +328,12 @@ public class NuevoPedido extends javax.swing.JFrame {
                 telefono=Conector.getInstance().cdr.getString("telefono");
             }
             else{
-               JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.WARNING_MESSAGE);
+               JOptionPane.showMessageDialog(null,"Cliente Inexistente",null,JOptionPane.ERROR_MESSAGE);
                 Nombre.setText("");
                 telefono="";
             }
         } catch (SQLException ex) {
-            
+            JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(NuevoPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_VerificarNuevoActionPerformed

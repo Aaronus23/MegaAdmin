@@ -39,7 +39,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 img=ImageIO.read(new File("logo.jpg"));
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al cargar la imagen",null,JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al cargar la imagen",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
   
@@ -302,7 +302,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_CajaPrinActionPerformed
 
     private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Realmente desea salir del sistema?");
+        int opc=JOptionPane.showConfirmDialog(null,"¿Realmente desea salir del sistema?",null,JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION)
             dispose();   
             Principal.instancia=null;

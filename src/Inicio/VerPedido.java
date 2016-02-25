@@ -7,15 +7,21 @@ package Inicio;
 
 import Conector.Conector;
 import com.itextpdf.text.DocumentException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.table.TableRowSorter;
 import notas.NotaProduccion;
 import notas.NotaVenta;
 
@@ -27,6 +33,8 @@ public class VerPedido extends javax.swing.JFrame {
     private static VerPedido instancia=null;
     Vector<String> cols;
     BigDecimal tot;
+    ArrayList f1,f2,finalf;
+    TableRowSorter filtroAnd;
     public static VerPedido getInstance(){
         if(instancia==null){
             instancia=new VerPedido();
@@ -47,9 +55,89 @@ public class VerPedido extends javax.swing.JFrame {
         cols.add("Telefono");
         Conector.getInstance();
         initComponents();
+        filtroAnd=new TableRowSorter();
+        Filtro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaInicial.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaFinal.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
         getTot();
     }
-
+    void checarFiltros(){
+        String cadena = Filtro.getText();
+        Filtro.setText(cadena);
+        repaint();
+        FechaInicial.setEditable(ChekFecha.isSelected());
+        FechaFinal.setEditable(ChekFecha.isSelected());
+        if(ChekFecha.isSelected())
+            filtroMixto();
+        else
+            filtroSolo();
+        TablaPedidos.setRowSorter(filtroAnd); 
+        getTot();
+    }
+    public void filtroSolo() {
+        filtroAnd = new TableRowSorter(TablaPedidos.getModel());
+        filtroAnd.setRowFilter(RowFilter.regexFilter("(?i)"+Filtro.getText()));
+        getTot();
+    }
+    public void filtroMixto(){
+        /*
+        String valor = null;
+        valor=valor.replace("a", "(a|á|A|Á)");
+        valor=valor.replace("e", "(e|é|E|É)");
+        valor=valor.replace("i", "(i|í|I|Í)");
+        valor=valor.replace("o", "(o|ó|O|Ó)");
+        valor=valor.replace("u", "(u|ú|U|Ú)");
+        valor=valor.replace("A", "(a|á|A|Á)");
+        valor=valor.replace("E", "(e|é|E|É)");
+        valor=valor.replace("I", "(i|í|I|Í)");
+        valor=valor.replace("O", "(o|ó|O|Ó)");
+        valor=valor.replace("U", "(u|ú|U|Ú)");
+        */
+        filtroAnd = new TableRowSorter(TablaPedidos.getModel());
+        String x1=FechaInicial.getText();
+        String x2=FechaFinal.getText();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date fecha1 = new Date();
+        Date fecha2 = new Date();
+        try {
+            fecha1 = format.parse(x1);
+            fecha2 = format.parse(x2);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            }
+        f1=new ArrayList();
+        f2=new ArrayList();
+        finalf=new ArrayList();
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha1,0));
+        f1.add(RowFilter.dateFilter(RowFilter.ComparisonType.AFTER, fecha1,0));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.EQUAL, fecha2,0));
+        f2.add(RowFilter.dateFilter(RowFilter.ComparisonType.BEFORE, fecha2,0));
+        finalf.add(RowFilter.orFilter(f1));
+        finalf.add(RowFilter.orFilter(f2));
+        finalf.add(RowFilter.regexFilter("(?i)"+Filtro.getText()));
+        //finalf.add(RowFilter.regexFilter(Filtro.getText(),1));
+        filtroAnd.setRowFilter(RowFilter.andFilter(finalf));
+        getTot();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,6 +191,11 @@ public class VerPedido extends javax.swing.JFrame {
         Filtro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 FiltroActionPerformed(evt);
+            }
+        });
+        Filtro.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                FiltroKeyPressed(evt);
             }
         });
 
@@ -186,12 +279,12 @@ public class VerPedido extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(InsertarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(EliminarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, Short.MAX_VALUE)))
+                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)))
                                     .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(HacerNotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE)
-                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, Short.MAX_VALUE))
+                                    .addComponent(HacerNotaVenta, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
+                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -275,11 +368,11 @@ private void getTot(){
     }//GEN-LAST:event_InsertarPedidoVActionPerformed
 
     private void HacerNotaVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HacerNotaVentaActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar una nota de venta?","Generar Nota de Venta",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             int fil=TablaPedidos.getSelectedRow();
             if(fil==-1){
-                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!",null,JOptionPane.WARNING_MESSAGE);
                 return;
             } 
             NotaVenta.getInstance();
@@ -288,27 +381,27 @@ private void getTot(){
                 NotaVenta.getInstance().createPdf("NotaVenta.pdf");
             JOptionPane.showMessageDialog(null, "¡Nota de venta generado con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                JOptionPane.showMessageDialog(null, "¡Error al generar Nota de Venta!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_HacerNotaVentaActionPerformed
 
     private void OrdenProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrdenProduccionActionPerformed
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar un PDF?","Generar PDF",JOptionPane.WARNING_MESSAGE);
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente generar Orden de Producción?","Generar Nota",JOptionPane.INFORMATION_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             int fil=TablaPedidos.getSelectedRow();
             if(fil==-1){
-                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!");
+                JOptionPane.showMessageDialog(null, "¡Ninguna fila seleccionada!",null,JOptionPane.WARNING_MESSAGE);
                 return;
             } 
             NotaProduccion.getInstance();
             NotaProduccion.getInstance().setear(TablaPedidos.getValueAt(fil,0)+"",TablaPedidos.getValueAt(fil,2)+"",TablaPedidos.getValueAt(fil,6)+"",TablaPedidos.getValueAt(fil,3)+"");
             try {
                 NotaProduccion.getInstance().createPdf("NotaProduccion.pdf");
-               JOptionPane.showMessageDialog(null, "¡PDF generado con éxito!");
+               JOptionPane.showMessageDialog(null, "¡Orden de producción generada con éxito!");
             } catch (DocumentException | IOException ex) {
-                JOptionPane.showMessageDialog(null, "¡Error al generar PDF!");
+                JOptionPane.showMessageDialog(null, "¡Error al generar orden de producción!",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -328,6 +421,7 @@ private void getTot(){
                     Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
                     JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -335,16 +429,12 @@ private void getTot(){
     }//GEN-LAST:event_AbonarPedidoVActionPerformed
 
     private void ChekFechaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaStateChanged
-        if(ChekFecha.isSelected()==true)
-        {
-            FechaInicial.setEditable(true);
-            FechaFinal.setEditable(true);
-        }
-        else{
-            FechaInicial.setEditable(false);
-            FechaFinal.setEditable(false);
-        }
+        checarFiltros();
     }//GEN-LAST:event_ChekFechaStateChanged
+
+    private void FiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyPressed
+        checarFiltros();
+    }//GEN-LAST:event_FiltroKeyPressed
 
     /**
      * @param args the command line arguments

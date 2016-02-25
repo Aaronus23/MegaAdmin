@@ -89,7 +89,8 @@ public class NotaCaja{
         
         Font font = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
         Font fuente_titulo=new Font(Font.FontFamily.HELVETICA,16,Font.BOLD,GrayColor.RED);
-        
+        Font rojo=new Font(Font.FontFamily.HELVETICA,12,Font.NORMAL,GrayColor.RED);
+        Font negro=new Font(Font.FontFamily.HELVETICA,12,Font.NORMAL,GrayColor.BLACK);
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filename));
         document.open();
@@ -168,16 +169,21 @@ public class NotaCaja{
             contenedor=(dat)datos.get(i);
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
             String fecha = formato.format(contenedor.fecha);
-            cell=new PdfPCell(new Phrase(" "+fecha));
+            cell=new PdfPCell(new Phrase(" "+fecha,negro));
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
         
-            cell=new PdfPCell(new Phrase(" "+contenedor.concepto));
+            cell=new PdfPCell(new Phrase(" "+contenedor.concepto,negro));
             cell.setColspan(3);
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
             total=total.add(new BigDecimal(contenedor.monto));
-            cell=new PdfPCell(new Phrase(" "+contenedor.monto));
+            if(contenedor.monto.charAt(0)=='-') {
+                cell=new PdfPCell(new Phrase(" "+contenedor.monto,rojo));
+            }
+            else {
+                cell=new PdfPCell(new Phrase(" "+contenedor.monto,negro));
+            }
             cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
             table.addCell(cell);
         }
