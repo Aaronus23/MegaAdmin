@@ -16,22 +16,16 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javax.print.attribute.Size2DSyntax.MM;
 import javax.swing.*;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.ComparisonType;
 import javax.swing.table.TableRowSorter;
 import notas.NotaCaja;
 import static notas.NotaCaja.RESULT;
-import java.util.Iterator;
-import javax.swing.table.TableModel;
 import notas.dat;
 /**
  *
@@ -42,7 +36,7 @@ public class Caja extends javax.swing.JFrame {
    ArrayList filtros,datos;
    Vector cols;
    ArrayList f1,f2,finalf;
-   TableRowSorter trsfiltro,filtroAnd,filtroOr1,filtroOr2;
+   TableRowSorter filtroAnd;
    dat dato;
    BigDecimal tot=BigDecimal.ZERO;
    private static Caja instancia=null;
@@ -62,13 +56,50 @@ public class Caja extends javax.swing.JFrame {
         cols.add("Concepto");
         cols.add("Monto");
         initComponents();
+        filtroAnd=new TableRowSorter();
+        Filtro.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaInicio.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        FechaFinal.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(final KeyEvent e) {
+                checarFiltros();
+            }
+        
+        });
+        getTot();
+    }
+    void checarFiltros(){
+        String cadena = Filtro.getText();
+        Filtro.setText(cadena);
+        repaint();
+        FechaInicio.setEditable(ChekFechaCaja.isSelected());
+        FechaFinal.setEditable(ChekFechaCaja.isSelected());
+        if(ChekFechaCaja.isSelected())
+            filtroMixto();
+        else
+            filtroSolo();
+        TablaCaja.setRowSorter(filtroAnd); 
         getTot();
     }
     public void filtroSolo() {
-        trsfiltro.setRowFilter(RowFilter.regexFilter(Filtro.getText(),1));
+        filtroAnd = new TableRowSorter(TablaCaja.getModel());
+        filtroAnd.setRowFilter(RowFilter.regexFilter(Filtro.getText(),1));
         getTot();
     }
     public void filtroMixto(){
+        filtroAnd = new TableRowSorter(TablaCaja.getModel());
         String x1=FechaInicio.getText();
         String x2=FechaFinal.getText();
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -86,10 +117,9 @@ public class Caja extends javax.swing.JFrame {
         f1.add(RowFilter.dateFilter(ComparisonType.AFTER, fecha1,0));
         f2.add(RowFilter.dateFilter(ComparisonType.EQUAL, fecha2,0));
         f2.add(RowFilter.dateFilter(ComparisonType.BEFORE, fecha2,0));
-        filtroOr1.setRowFilter(RowFilter.orFilter(f1));
-        filtroOr2.setRowFilter(RowFilter.orFilter(f2));
-        finalf.add(filtroOr1);
-        finalf.add(filtroOr2);
+        finalf.add(RowFilter.orFilter(f1));
+        finalf.add(RowFilter.orFilter(f2));
+        finalf.add(RowFilter.regexFilter(Filtro.getText(),1));
         //finalf.add(RowFilter.regexFilter(Filtro.getText(),1));
         filtroAnd.setRowFilter(RowFilter.andFilter(finalf));
         getTot();
@@ -296,33 +326,6 @@ public class Caja extends javax.swing.JFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void FiltroKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyTyped
-        if(ChekFechaCaja.isSelected()==true)
-        {
-            /*Filtro.addKeyListener(new KeyAdapter() {
-                public void keyReleased(final KeyEvent e) {
-                    String cadena = (Filtro.getText());
-                    Filtro.setText(cadena);
-                    repaint();
-                    filtroMixto();
-                }
-            }); 
-            filtroAnd = new TableRowSorter(TablaCaja.getModel());
-            TablaCaja.setRowSorter(filtroAnd); 
-            getTot();*/
-        }
-        else{
-            Filtro.addKeyListener(new KeyAdapter() {
-                public void keyReleased(final KeyEvent e) {
-                    String cadena = (Filtro.getText());
-                    Filtro.setText(cadena);
-                    repaint();
-                    filtroSolo();
-                }
-            });
-            trsfiltro = new TableRowSorter(TablaCaja.getModel());
-            TablaCaja.setRowSorter(trsfiltro);
-            getTot();
-        }
     }//GEN-LAST:event_FiltroKeyTyped
 
     private void FechaInicioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FechaInicioKeyTyped
@@ -366,37 +369,7 @@ public class Caja extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void ChekFechaCajaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ChekFechaCajaStateChanged
-        if(ChekFechaCaja.isSelected()==true)
-        {
-            FechaInicio.setEditable(true);
-            FechaFinal.setEditable(true);
-            /*Filtro.addKeyListener(new KeyAdapter() {
-                public void keyReleased(final KeyEvent e) {
-                    String cadena = (Filtro.getText());
-                    Filtro.setText(cadena);
-                    repaint();
-                    filtroMixto();
-                }
-            });  
-            filtroAnd = new TableRowSorter(TablaCaja.getModel());
-            TablaCaja.setRowSorter(filtroAnd); 
-            getTot();*/
-        }
-        else{
-            FechaInicio.setEditable(false);
-            FechaFinal.setEditable(false);
-            /*Filtro.addKeyListener(new KeyAdapter() {
-                public void keyReleased(final KeyEvent e) {
-                    String cadena = (Filtro.getText());
-                    Filtro.setText(cadena);
-                    repaint();
-                    filtroSolo();
-                }
-            });
-            trsfiltro = new TableRowSorter(TablaCaja.getModel());
-            TablaCaja.setRowSorter(trsfiltro);
-            getTot();*/
-        }
+       checarFiltros();
     }//GEN-LAST:event_ChekFechaCajaStateChanged
 
     private void ChekFechaCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChekFechaCajaActionPerformed
@@ -404,7 +377,7 @@ public class Caja extends javax.swing.JFrame {
     }//GEN-LAST:event_ChekFechaCajaActionPerformed
 
     private void FiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyPressed
-        
+        checarFiltros();
     }//GEN-LAST:event_FiltroKeyPressed
 
     private void FiltroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_FiltroKeyReleased

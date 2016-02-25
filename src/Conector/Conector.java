@@ -41,9 +41,9 @@ public final class Conector {
         sentencia=conexion.createStatement();
     }
     public void conectar() throws java.sql.SQLException {
-        String URL_bd = "jdbc:mysql://localhost:3307/megagraphicsDB";
+        String URL_bd = "jdbc:mysql://localhost:3306/megagraphicsDB";
         String usuario="root";
-        String password="Jemochido1996.";
+        String password="";
         //Conectar con la BD
         conexion=java.sql.DriverManager.getConnection(URL_bd,usuario,password);
     }
