@@ -23,6 +23,7 @@ import notas.NotaVenta;
  *
  * @author Jesús Ernesto
  */
+
 public class VerPedido extends javax.swing.JFrame {
     private static VerPedido instancia=null;
     Vector<String> cols;
@@ -33,9 +34,6 @@ public class VerPedido extends javax.swing.JFrame {
         }
         return instancia;
     }
-    /**
-     * Creates new form VerPedido
-     */
     public VerPedido() {   
         cols=new Vector<>();
         cols.add("Folio");
