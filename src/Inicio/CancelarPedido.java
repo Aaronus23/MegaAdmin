@@ -30,13 +30,13 @@ public class CancelarPedido extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void setear(String folio,String nombre,String fecha,String total,String abono){
+    public void setear(String folio,String nombre,String fecha,String total,String abono,String concepto){
         NombreEjemplo.setText(nombre);
         FechaEjemplo.setText(fecha);
         AbonoPedido.setText(abono);
         TotalPedido.setText(total);
         NumeroPedido.setText(folio);
-                
+        ConceptoCancelar.setText(concepto);
     }
 
     /**

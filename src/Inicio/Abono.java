@@ -37,8 +37,13 @@ public class Abono extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void setear(String folio) {
+    public void setear(String folio,String nombre, String total, String abono, String fecha, String concepto) {
         NumeroOrden.setText(folio);
+        NombreEjemplo.setText(nombre);
+        TotalPedido.setText(total);
+        AbonoPedido.setText(abono);
+        FechaEjemplo.setText(fecha);
+        ConceptoA.setText(concepto);
     }
 
     /**
@@ -258,6 +263,10 @@ public class Abono extends javax.swing.JFrame {
                 if(abo.add(monto).compareTo(total)==1){
                    JOptionPane.showMessageDialog(null,"Estas abonando mas del total",null,JOptionPane.WARNING_MESSAGE);
                    return;
+                }
+                if(monto.compareTo(BigDecimal.ZERO)<1){
+                  JOptionPane.showMessageDialog(null,"Estas abonando una cantidad menor o igual a cero",null,JOptionPane.WARNING_MESSAGE);
+                  return;
                 }
                 AbonoPedido.setText(abo.add(monto).toString());
                 String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

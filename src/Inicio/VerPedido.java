@@ -411,22 +411,26 @@ private void getTot(){
     }//GEN-LAST:event_OrdenProduccionActionPerformed
 
     private void AbonarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarPedidoVActionPerformed
-        int cantS=Integer.parseInt(JOptionPane.showInputDialog(null,"Cantidad a abonar","Abono"));
-        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","Abono",JOptionPane.WARNING_MESSAGE);
+        BigDecimal cantS=new BigDecimal(JOptionPane.showInputDialog(null,"Cantidad a abonar",""));
+        int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int id= TablaPedidos.getSelectedRow();
-            if(id==-1)
+            if(id==-1){
                 JOptionPane.showMessageDialog(null, "¡Ningun pedido seleccionado!",null,JOptionPane.WARNING_MESSAGE);
-            else{
-                try {
-                    Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");
-                    Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
-                    JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
-                    Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                return;
+            }
+            if(cantS.compareTo(BigDecimal.ZERO)<1){
+                JOptionPane.showMessageDialog(null, "¡Estas abonando una cantidad menor o igual a cero",null,JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            try {
+                Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");
+                Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
+                JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
+                 Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_AbonarPedidoVActionPerformed
