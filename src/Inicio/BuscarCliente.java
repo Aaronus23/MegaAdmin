@@ -162,8 +162,12 @@ public class BuscarCliente extends javax.swing.JFrame {
     private void EliminarClienteBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarClienteBActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este cliente?","Eliminar",JOptionPane.INFORMATION_MESSAGE);
             if(opc==JOptionPane.YES_OPTION){
+                int row=BuscarCliente.getInstance().TablaDatos.getSelectedRow();
+                if(row==-1){
+                  JOptionPane.showMessageDialog(null, "¡Ningun cliente seleccionado!",null,JOptionPane.WARNING_MESSAGE);
+                }
                 try {
-                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().TablaDatos.getValueAt(BuscarCliente.getInstance().TablaDatos.getSelectedRow(),0));
+                    Conector.getInstance().Insertar("DELETE FROM cliente WHERE id="+BuscarCliente.getInstance().TablaDatos.getValueAt(row,0));
                     JOptionPane.showMessageDialog(null, "¡Datos del cliente eliminados exitosamente!");
                     BuscarCliente.getInstance().TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",BuscarCliente.getInstance().cols));
                     instancia=null;

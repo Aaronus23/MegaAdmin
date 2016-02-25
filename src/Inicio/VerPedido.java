@@ -412,7 +412,13 @@ private void getTot(){
     }//GEN-LAST:event_OrdenProduccionActionPerformed
 
     private void AbonarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AbonarPedidoVActionPerformed
-        BigDecimal cantS=new BigDecimal(JOptionPane.showInputDialog(null,"Cantidad a abonar",""));
+        BigDecimal cantS=null;
+        try{
+            cantS=new BigDecimal(JOptionPane.showInputDialog(null,"Cantidad a abonar",""));
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "¡Cantidad en formato invalido",null,JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente abonar a este pedido?","",JOptionPane.WARNING_MESSAGE);
         if(opc==JOptionPane.YES_OPTION){
             String fecha = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
