@@ -7,7 +7,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <Events>
     <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
@@ -44,7 +44,7 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="851" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
@@ -52,23 +52,30 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="Filtro" min="-2" pref="239" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="InsertarPedidoV" max="32767" attributes="0"/>
-                                          <Component id="EliminarPedidoV" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="AbonarPedidoV" alignment="0" pref="172" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="Filtro" min="-2" pref="275" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="InsertarPedidoV" min="-2" pref="172" max="-2" attributes="0"/>
+                                                  <Component id="EliminarPedidoV" min="-2" pref="172" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="OrdenProduccion" min="-2" pref="173" max="-2" attributes="0"/>
+                                                  <Component id="HacerNotaVenta" min="-2" pref="173" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Component id="AbonarPedidoV" min="-2" pref="172" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="TotalV" alignment="0" min="-2" pref="143" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="TotalV" min="-2" pref="175" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="HacerNotaVenta" pref="173" max="32767" attributes="0"/>
-                                  <Component id="OrdenProduccion" alignment="0" pref="173" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -89,21 +96,21 @@
                   <Component id="FechaInicial" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="111" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="193" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="TotalV" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="OrdenProduccion" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="InsertarPedidoV" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -113,11 +120,15 @@
                                   <Component id="EliminarPedidoV" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="HacerNotaVenta" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="AbonarPedidoV" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="Filtro" min="-2" pref="79" max="-2" attributes="0"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="Filtro" min="-2" pref="79" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   </Group>
               </Group>
