@@ -51,8 +51,8 @@ public class VerPedido extends javax.swing.JFrame {
         cols.add("Abonado");
         cols.add("Total");
         cols.add("Telefono");
-        Conector.getInstance();
         initComponents();
+        Conector.getInstance();
         filtroAnd=new TableRowSorter();
         Filtro.addKeyListener(new KeyAdapter() {
             @Override
@@ -161,6 +161,8 @@ public class VerPedido extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         OrdenProduccion = new javax.swing.JButton();
         AbonarPedidoV = new javax.swing.JButton();
+        TotalV2 = new javax.swing.JFormattedTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("PEDIDOS");
@@ -232,6 +234,11 @@ public class VerPedido extends javax.swing.JFrame {
 
         TotalV.setEditable(false);
         TotalV.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        TotalV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalVActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("TOTAL ($):");
 
@@ -248,6 +255,16 @@ public class VerPedido extends javax.swing.JFrame {
                 AbonarPedidoVActionPerformed(evt);
             }
         });
+
+        TotalV2.setEditable(false);
+        TotalV2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        TotalV2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TotalV2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("TOTAL VENDIDO($):");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,7 +292,7 @@ public class VerPedido extends javax.swing.JFrame {
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(Filtro, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(75, 75, 75)
@@ -284,15 +301,18 @@ public class VerPedido extends javax.swing.JFrame {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(InsertarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(EliminarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(61, 61, 61)
+                                                .addGap(40, 40, 40)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(HacerNotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(28, 28, 28))
+                                                    .addComponent(OrdenProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(HacerNotaVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(AbonarPedidoV, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                                        .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(TotalV2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(28, 28, 28)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -310,7 +330,9 @@ public class VerPedido extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TotalV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(TotalV2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -350,11 +372,18 @@ public class VerPedido extends javax.swing.JFrame {
 private void getTot(){
         BigDecimal cant;
         tot=BigDecimal.ZERO;
+        BigDecimal cant2; //Esta cantidad servirá para mostrar el total de dinero de los pedidos pero sin descontarle los abonos
         for(int i=0; i<TablaPedidos.getRowCount(); i++){
-            cant = new BigDecimal(TablaPedidos.getValueAt(i, 5)+"").subtract(new BigDecimal(TablaPedidos.getValueAt(i, 4)+""));
+            cant = new BigDecimal(TablaPedidos.getValueAt(i,5)+"").subtract(new BigDecimal(TablaPedidos.getValueAt(i, 4)+""));
             tot=tot.add(cant);
-         }
+        }
         TotalV.setText(tot.toString());
+        tot=BigDecimal.ZERO;
+        for(int j=0; j<TablaPedidos.getRowCount(); j++){
+            cant2 = new BigDecimal(TablaPedidos.getValueAt(j,5)+"");
+            tot=tot.add(cant2);
+        }
+        TotalV2.setText(tot.toString());
     }
     private void EliminarPedidoVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarPedidoVActionPerformed
         int opc=JOptionPane.showConfirmDialog(null,"¿Desea realmente eliminar a este pedido?","Eliminar",JOptionPane.WARNING_MESSAGE);
@@ -443,6 +472,9 @@ private void getTot(){
                 Conector.getInstance().Insertar("INSERT INTO abono VALUES(NULL,'"+fecha+"',"+TablaPedidos.getValueAt(id, 0)+","+cantS+")");
                 Conector.getInstance().Insertar("UPDATE pedido SET abonoTotal=abonoTotal+"+cantS+" WHERE id="+TablaPedidos.getValueAt(id, 0));
                 JOptionPane.showMessageDialog(null, "¡Abono realizado con éxito!");
+                Caja.getInstance().TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha DESC",Caja.getInstance().cols));
+                TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",cols));
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "¡Error al conectar la base de datos!",null,JOptionPane.ERROR_MESSAGE);
                  Logger.getLogger(VerPedido.class.getName()).log(Level.SEVERE, null, ex);
@@ -473,6 +505,14 @@ private void getTot(){
             MostrarDatosPedidos.getInstance().setear(folio,fecha,nombre,concepto,abono,total,numero);
         }
     }//GEN-LAST:event_TablaPedidosMouseClicked
+
+    private void TotalVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalVActionPerformed
+
+    private void TotalV2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TotalV2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TotalV2ActionPerformed
 
 
     /**
@@ -522,10 +562,12 @@ private void getTot(){
     private javax.swing.JButton OrdenProduccion;
     public javax.swing.JTable TablaPedidos;
     private javax.swing.JFormattedTextField TotalV;
+    private javax.swing.JFormattedTextField TotalV2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
