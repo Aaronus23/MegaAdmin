@@ -5,6 +5,11 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author nancyrs
@@ -60,6 +65,7 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
         TxtAbono = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         TxtTotal = new javax.swing.JTextField();
+        BtnGuardar = new javax.swing.JButton();
         BtnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,6 +82,11 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
         jLabel2.setText("FOLIO");
 
         TxtFolio.setEditable(false);
+        TxtFolio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtFolioActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -98,7 +109,6 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
 
         jLabel6.setText("Concepto");
 
-        TxtConcepto.setEditable(false);
         jScrollPane1.setViewportView(TxtConcepto);
 
         jLabel7.setText("Abono ($)");
@@ -107,7 +117,11 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
 
         jLabel8.setText("Total ($)");
 
-        TxtTotal.setEditable(false);
+        TxtTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtTotalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,7 +183,14 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        BtnAceptar.setText("Aceptar");
+        BtnGuardar.setText("Guardar Cambios");
+        BtnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGuardarActionPerformed(evt);
+            }
+        });
+
+        BtnAceptar.setText("Cerrar sin Guardar");
         BtnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnAceptarActionPerformed(evt);
@@ -193,10 +214,14 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BtnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(173, 173, 173)
+                .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BtnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,9 +234,11 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
                     .addComponent(TxtFolio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BtnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,14 +250,42 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
         MostrarDatosPedidos.instancia=null;
     }//GEN-LAST:event_formWindowClosed
 
+    private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
+                String up="UPDATE pedido SET "
+                + "concepto='"+TxtConcepto.getText()+"',"
+                + "total="+TxtTotal.getText()+
+                " WHERE id="+TxtFolio.getText();
+        try {
+            Conector.getInstance().Insertar(up);
+        } catch (SQLException ex) {
+            Logger.getLogger(MostrarDatosCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            VerPedido.getInstance().TablaPedidos.setModel(Conector.getInstance().buildTableModel("SELECT pedido.id, pedido.fecha,cliente.nombre,pedido.concepto,pedido.abonoTotal,pedido.total,cliente.telefono FROM pedido JOIN cliente ON pedido.idCliente=cliente.id",VerPedido.getInstance().cols));
+        } catch (SQLException ex) {
+            Logger.getLogger(MostrarDatosPedidos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        VerPedido.getInstance().getTot();
+        dispose();
+        MostrarDatosPedidos.instancia=null;
+    }//GEN-LAST:event_BtnGuardarActionPerformed
+
+    private void TxtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtFechaActionPerformed
+
     private void BtnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAceptarActionPerformed
         dispose();
         MostrarDatosPedidos.instancia=null;
     }//GEN-LAST:event_BtnAceptarActionPerformed
 
-    private void TxtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtFechaActionPerformed
+    private void TxtFolioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtFolioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TxtFechaActionPerformed
+    }//GEN-LAST:event_TxtFolioActionPerformed
+
+    private void TxtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtTotalActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtTotalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,6 +324,7 @@ public class MostrarDatosPedidos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnAceptar;
+    private javax.swing.JButton BtnGuardar;
     private javax.swing.JTextField TxtAbono;
     private javax.swing.JTextPane TxtConcepto;
     private javax.swing.JTextField TxtFecha;
