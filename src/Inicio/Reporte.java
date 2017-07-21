@@ -123,8 +123,8 @@ public class Reporte extends javax.swing.JFrame {
             boolean empty=true;
             try {
                 Conector.getInstance().Buscar(
-                        "SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono "
-                        + "WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "' "
+                        "SELECT abono.fecha ,CONCAT('Abono al pedido: ',idPedido,' (',Cliente.nombre,')') as concepto,monto FROM abono INNER JOIN pedido on pedido.id=idPedido INNER JOIN cliente on pedido.idCliente=cliente.id "
+                        + "WHERE abono.fecha>='" + fechIni +"' AND abono.fecha<='"+ fechFin + "' "
                         + "UNION "
                         + "SELECT fecha,concepto,monto FROM caja "
                         + "WHERE fecha>='" + fechIni +"' AND fecha<='"+ fechFin + "' ORDER BY fecha");

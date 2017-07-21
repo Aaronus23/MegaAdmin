@@ -5,6 +5,11 @@
  */
 package Inicio;
 
+import Conector.Conector;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author nancyrs
@@ -214,7 +219,11 @@ public class MostrarDatosCliente extends javax.swing.JFrame {
                 + "telefono2='"+TxtTelefono2.getText()+"',"
                 + "direccion='"+TxtDireccion.getText()+
                 "WHERE id="+TxtIdCliente.getText();
-        Conector.getInstance().Insertar(up);
+        try {
+            Conector.getInstance().Insertar(up);
+        } catch (SQLException ex) {
+            Logger.getLogger(MostrarDatosCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
         dispose();
        MostrarDatosCliente.instancia=null;
     }//GEN-LAST:event_BtnGuardarActionPerformed

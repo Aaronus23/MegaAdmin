@@ -73,9 +73,10 @@ public class NotaCaja{
     public static final String RESULT
         = "Caja.pdf";
 
-    /*public static void main(String[] args) throws DocumentException, IOException {
+    public static void main(String[] args) 
+            throws DocumentException, IOException {
     	new NotaCaja().createPdf(RESULT,ggg);
-    }*/
+    }
 
     public void createPdf(String filename, ArrayList datos)
 	throws DocumentException, IOException {
@@ -94,7 +95,7 @@ public class NotaCaja{
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filename));
         document.open();
-
+        PdfPTable table = new PdfPTable(5);
         String RESOURCE = "logo.jpg";
    
         Image img = null;

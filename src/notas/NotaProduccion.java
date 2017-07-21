@@ -104,22 +104,12 @@ public class NotaProduccion {
         
         cell=new PdfPCell();
         cell.setCellEvent(new ImageBackgroundEvent(img));
-        cell.setColspan(2);
+        cell.setColspan(1);
         cell.setBorder(0);
         table.addCell(cell);
-        
-        cell=new PdfPCell(new Phrase("      Av. Independencia No. 1864-A \n      Fracc. Jardines de la Concepción\n      Producción: \n      Municipio de Pabellón de Arteaga No. 122\n      Parque Industrial del Valle de Aguascalientes\n      San Francisco de los Romo, Ags ",font));
-        cell.setColspan(3);
-        cell.setBorder(0);
-        table.addCell(cell);
-        
-        cell=new PdfPCell(new Phrase(" "));
-        cell.setColspan(5);
-        cell.setBorder(0);
-        table.addCell(cell);
-        
-        cell=new PdfPCell(new Phrase("                      ORDEN DE PRODUCCIÓN ",fuente_titulo));
-        cell.setColspan(5);
+                
+        cell=new PdfPCell(new Phrase("   ORDEN DE PRODUCCIÓN\n\n",fuente_titulo));
+        cell.setColspan(4);
         cell.setBorder(0);
         table.addCell(cell);
         

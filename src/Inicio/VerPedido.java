@@ -369,7 +369,7 @@ public class VerPedido extends javax.swing.JFrame {
         dispose();
         VerPedido.instancia=null;
     }//GEN-LAST:event_formWindowClosed
-private void getTot(){
+ void getTot(){
         BigDecimal cant;
         tot=BigDecimal.ZERO;
         BigDecimal cant2; //Esta cantidad servirá para mostrar el total de dinero de los pedidos pero sin descontarle los abonos

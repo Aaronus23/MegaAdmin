@@ -1,8 +1,11 @@
 package Conector;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,11 +44,19 @@ public final class Conector{
         conectar();
         sentencia=conexion.createStatement();
     }       
-    public void conectar() throws java.sql.SQLException{
-        //Conectar con la BD
-        String URL="jdbc:mysql://localhost:3307/megagraphicsDB";
-        String usuario="root";
-        String password="Jemochido1996.";
+    public void conectar() throws SQLException{
+        Properties prop = new Properties();
+	InputStream input = null;
+        try{
+                input = new FileInputStream("database.properties");   
+                prop.load(input);
+        }catch (IOException ex) {
+		ex.printStackTrace();
+        }
+     
+        String URL=prop.getProperty("URL_bd");
+        String usuario=prop.getProperty("usuario");
+        String password=prop.getProperty("password");
         conexion=java.sql.DriverManager.getConnection(URL,usuario,password);
     }
     public void cerrarConexion() throws java.sql.SQLException {

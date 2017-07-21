@@ -204,10 +204,12 @@ public class NotaVenta {
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase("     Abonado"));
+        cell.setColspan(1);
         cell.setBorder(0);
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase(" "+Abono));
+        cell.setColspan(1);
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
         table.addCell(cell);
         
@@ -217,10 +219,12 @@ public class NotaVenta {
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase("     Restante"));
+        cell.setColspan(1);
         cell.setBorder(0);
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase(" "+restante));
+        cell.setColspan(1);
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
         table.addCell(cell);
         
@@ -230,15 +234,46 @@ public class NotaVenta {
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase("     Total"));
+        cell.setColspan(1);
         cell.setBorder(0);
         table.addCell(cell);
         
         cell=new PdfPCell(new Phrase(" "+total));
+        cell.setColspan(1);
         cell.setBorder(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.LEFT |Rectangle.RIGHT);
         table.addCell(cell);
         
-        document.add(table);
+        cell=new PdfPCell(new Phrase("\n\n"));
+        cell.setColspan(5);
+        cell.setBorder(0);
+        table.addCell(cell);
         
+        cell=new PdfPCell(new Phrase(" "));
+        cell.setColspan(1);
+        cell.setBorder(0);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase(" "));
+        cell.setColspan(1);
+        cell.setBorder(Rectangle.TOP);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase("Recibi"));
+        cell.setColspan(1);
+        cell.setBorder(Rectangle.TOP);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase(" "));
+        cell.setColspan(1);
+        cell.setBorder(Rectangle.TOP);
+        table.addCell(cell);
+        
+        cell=new PdfPCell(new Phrase(" "));
+        cell.setColspan(1);
+        cell.setBorder(0);
+        table.addCell(cell);
+        
+        document.add(table);
         document.close();
         abrirArchivo();
     }

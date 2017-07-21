@@ -39,6 +39,7 @@ public class Caja extends javax.swing.JFrame {
    TableRowSorter filtroAnd;
    dat dato;
    BigDecimal tot=BigDecimal.ZERO;
+   String abonoStr="SELECT abono.fecha ,CONCAT('Abono al pedido: ',idPedido,' (',Cliente.nombre,')') as concepto,monto FROM abono INNER JOIN pedido on pedido.id=idPedido INNER JOIN cliente on pedido.idCliente=cliente.id UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha DESC";
    private static Caja instancia=null;
     public static Caja getInstance(){
         if(instancia==null){
@@ -203,7 +204,7 @@ public class Caja extends javax.swing.JFrame {
 
         try{
             TablaCaja.setAutoCreateRowSorter(true);
-            TablaCaja.setModel(Conector.getInstance().buildTableModel("SELECT fecha ,CONCAT('Abono al pedido: ',idPedido) as concepto,monto FROM abono UNION SELECT fecha,concepto,monto FROM caja ORDER BY fecha DESC",cols));
+            TablaCaja.setModel(Conector.getInstance().buildTableModel(abonoStr,cols));
         } catch(SQLException ex){
         }
         TablaCaja.getTableHeader().setReorderingAllowed(false);
