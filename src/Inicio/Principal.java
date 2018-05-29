@@ -41,7 +41,7 @@ public class Principal extends javax.swing.JFrame {
             try {
                 img=ImageIO.read(new File("logo.jpg"));
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al cargar la imagenxDxD",null,JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al cargar la imagen logo.jpg",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
             
@@ -53,9 +53,9 @@ public class Principal extends javax.swing.JFrame {
         jLogo1.setIcon(icono);
         
         try {
-                img2=ImageIO.read(new File("manzana1.jpg"));
+                img2=ImageIO.read(new File("manzana.jpg"));
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al cargar la imagen",null,JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error al cargar la imagen manzana.jpg",null,JOptionPane.ERROR_MESSAGE);
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
             

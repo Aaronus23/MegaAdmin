@@ -45,18 +45,9 @@ public final class Conector{
         sentencia=conexion.createStatement();
     }       
     public void conectar() throws SQLException{
-        Properties prop = new Properties();
-	InputStream input = null;
-        try{
-                input = new FileInputStream("database.properties");   
-                prop.load(input);
-        }catch (IOException ex) {
-		ex.printStackTrace();
-        }
-     
-        String URL=prop.getProperty("URL_bd");
-        String usuario=prop.getProperty("usuario");
-        String password=prop.getProperty("password");
+        String URL="jdbc:mysql://megagraficos.mx:3306/megagraf_megaDB";
+        String usuario="megagraf_rootU";
+        String password="l&LyI)l(I3M{";
         conexion=java.sql.DriverManager.getConnection(URL,usuario,password);
     }
     public void cerrarConexion() throws java.sql.SQLException {

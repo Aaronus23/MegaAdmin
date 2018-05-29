@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.ComparisonType;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
@@ -74,10 +76,12 @@ public class BuscarCliente extends javax.swing.JFrame {
 
         jLabel1.setText("Filtro General:");
 
-        try{
-            TablaDatos.setAutoCreateRowSorter(true);
-            TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols));
-        } catch(SQLException ex){
+        TablaDatos.setAutoCreateRowSorter(true);
+        try {
+            TablaDatos.setModel(Conector.getInstance().buildTableModel("SELECT * FROM cliente",cols)
+            );
+        } catch (SQLException ex) {
+            Logger.getLogger(BuscarCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         TablaDatos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
